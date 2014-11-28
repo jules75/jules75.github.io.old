@@ -39,17 +39,21 @@
     [word wordlist]
     (filter #(= (sort %) (sort word)) wordlist))
 
+
+(def results (atom []))
+	
 	
 (defn onsubmit
 	[e]
 	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
 			result (anagrams letters nine-letter-words)]
+		(reset! results result)
 		(-> :#results dom/sel1 dom/clear!)
 		(-> (dom/sel1 :h2) (dom/set-text! (str (count result) " anagram(s) found")))
 		(doseq [match result]
-			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match)))
+			(.log js/console match))
 		(.preventDefault e)
-			))
+		))
 
 
 (dom/listen! (dom/sel1 :form) :submit onsubmit)
