@@ -42,8 +42,11 @@
 	
 (defn onsubmit
 	[e]
-	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))]
-		(doseq [match (anagrams letters nine-letter-words)]
+	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
+			result (anagrams letters nine-letter-words)]
+		(-> :#results dom/sel1 dom/clear!)
+		(-> (dom/sel1 :h2) (dom/set-text! (str (count result) " anagram(s) found")))
+		(doseq [match result]
 			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match)))
 		(.preventDefault e)
 			))
