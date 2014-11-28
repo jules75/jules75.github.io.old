@@ -40,11 +40,13 @@
     (filter #(= (sort %) (sort word)) wordlist))
 
 
-(defn onclick
+(defn onsubmit
 	[e]
 	(let [letters (-> :input dom/sel1 dom/value upper-case)]
 		(doseq [match (anagrams letters nine-letter-words)]
-			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match))
-			)))
+			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match)))
+		(.preventDefault e)
+			))
 
-(dom/listen! (dom/sel1 :button) :click onclick)
+
+(dom/listen! (dom/sel1 :form) :submit onsubmit)
