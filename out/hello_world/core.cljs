@@ -15,24 +15,34 @@
 (def hint-count (atom 0))
 	
 	
+(defn ui-update
+	"Update UI according to current state"
+	[]
+	(-> :h2 dom/sel1 (dom/set-text! (str (count @results) " anagram(s) found")))
+	(dom/set-text! (dom/sel1 :#result) (apply str (take @hint-count (first @results))))
+	(dom/toggle! (dom/sel1 :#hint) (pos? (count @results)))
+	)
+
+
 (defn on-find
 	[e]
 	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
 			result (anagrams letters nine-letter-words)]
 		(reset! results result)
 		(reset! hint-count 0)
-		(-> :#result dom/sel1 dom/clear!)
-		(-> (dom/sel1 :h2) (dom/set-text! (str (count result) " anagram(s) found")))
+		(ui-update)
 		(.preventDefault e)
 		))
 		
 (defn on-hint
 	[e]	
 	(swap! hint-count inc)
-	(-> :#result dom/sel1 (dom/set-text! (apply str (take @hint-count (first @results)))))
+	(ui-update)
 	)
 
 
 ; listeners
 (dom/listen! (dom/sel1 :form) :submit on-find)
 (dom/listen! (dom/sel1 :#hint) :click on-hint)
+
+(ui-update)
