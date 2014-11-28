@@ -7,55 +7,58 @@ hello_world.core.nine_letter_words = cljs.core.PersistentVector.fromArray(["AARD
 /**
 * Find all anagrams of 'word' in wordlist.
 */
-hello_world.core.anagrams = (function anagrams(word,wordlist){return cljs.core.filter.call(null,(function (p1__5822_SHARP_){return cljs.core._EQ_.call(null,cljs.core.sort.call(null,p1__5822_SHARP_),cljs.core.sort.call(null,word));
+hello_world.core.anagrams = (function anagrams(word,wordlist){return cljs.core.filter.call(null,(function (p1__6043_SHARP_){return cljs.core._EQ_.call(null,cljs.core.sort.call(null,p1__6043_SHARP_),cljs.core.sort.call(null,word));
 }),wordlist);
 });
-var seq__5823_5827 = cljs.core.seq.call(null,hello_world.core.anagrams.call(null,"GYTINORAS",hello_world.core.nine_letter_words));var chunk__5824_5828 = null;var count__5825_5829 = (0);var i__5826_5830 = (0);while(true){
-if((i__5826_5830 < count__5825_5829))
-{var match_5831 = cljs.core._nth.call(null,chunk__5824_5828,i__5826_5830);dommy.core.append_BANG_.call(null,document.getElementById("results"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),match_5831));
+hello_world.core.onclick = (function onclick(e){var letters = dommy.core.value.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("input"))[(0)]));var seq__6048 = cljs.core.seq.call(null,hello_world.core.anagrams.call(null,letters,hello_world.core.nine_letter_words));var chunk__6049 = null;var count__6050 = (0);var i__6051 = (0);while(true){
+if((i__6051 < count__6050))
+{var match = cljs.core._nth.call(null,chunk__6049,i__6051);dommy.core.append_BANG_.call(null,document.getElementById("results"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),match));
 {
-var G__5832 = seq__5823_5827;
-var G__5833 = chunk__5824_5828;
-var G__5834 = count__5825_5829;
-var G__5835 = (i__5826_5830 + (1));
-seq__5823_5827 = G__5832;
-chunk__5824_5828 = G__5833;
-count__5825_5829 = G__5834;
-i__5826_5830 = G__5835;
+var G__6052 = seq__6048;
+var G__6053 = chunk__6049;
+var G__6054 = count__6050;
+var G__6055 = (i__6051 + (1));
+seq__6048 = G__6052;
+chunk__6049 = G__6053;
+count__6050 = G__6054;
+i__6051 = G__6055;
 continue;
 }
 } else
-{var temp__4126__auto___5836 = cljs.core.seq.call(null,seq__5823_5827);if(temp__4126__auto___5836)
-{var seq__5823_5837__$1 = temp__4126__auto___5836;if(cljs.core.chunked_seq_QMARK_.call(null,seq__5823_5837__$1))
-{var c__4307__auto___5838 = cljs.core.chunk_first.call(null,seq__5823_5837__$1);{
-var G__5839 = cljs.core.chunk_rest.call(null,seq__5823_5837__$1);
-var G__5840 = c__4307__auto___5838;
-var G__5841 = cljs.core.count.call(null,c__4307__auto___5838);
-var G__5842 = (0);
-seq__5823_5827 = G__5839;
-chunk__5824_5828 = G__5840;
-count__5825_5829 = G__5841;
-i__5826_5830 = G__5842;
+{var temp__4126__auto__ = cljs.core.seq.call(null,seq__6048);if(temp__4126__auto__)
+{var seq__6048__$1 = temp__4126__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__6048__$1))
+{var c__4307__auto__ = cljs.core.chunk_first.call(null,seq__6048__$1);{
+var G__6056 = cljs.core.chunk_rest.call(null,seq__6048__$1);
+var G__6057 = c__4307__auto__;
+var G__6058 = cljs.core.count.call(null,c__4307__auto__);
+var G__6059 = (0);
+seq__6048 = G__6056;
+chunk__6049 = G__6057;
+count__6050 = G__6058;
+i__6051 = G__6059;
 continue;
 }
 } else
-{var match_5843 = cljs.core.first.call(null,seq__5823_5837__$1);dommy.core.append_BANG_.call(null,document.getElementById("results"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),match_5843));
+{var match = cljs.core.first.call(null,seq__6048__$1);dommy.core.append_BANG_.call(null,document.getElementById("results"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),match));
 {
-var G__5844 = cljs.core.next.call(null,seq__5823_5837__$1);
-var G__5845 = null;
-var G__5846 = (0);
-var G__5847 = (0);
-seq__5823_5827 = G__5844;
-chunk__5824_5828 = G__5845;
-count__5825_5829 = G__5846;
-i__5826_5830 = G__5847;
+var G__6060 = cljs.core.next.call(null,seq__6048__$1);
+var G__6061 = null;
+var G__6062 = (0);
+var G__6063 = (0);
+seq__6048 = G__6060;
+chunk__6049 = G__6061;
+count__6050 = G__6062;
+i__6051 = G__6063;
 continue;
 }
 }
 } else
-{}
+{return null;
+}
 }
 break;
 }
+});
+dommy.core.listen_BANG_.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("button"))[(0)]),new cljs.core.Keyword(null,"click","click",1912301393),hello_world.core.onclick);
 
 //# sourceMappingURL=core.js.map

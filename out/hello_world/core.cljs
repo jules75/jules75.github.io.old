@@ -1,5 +1,5 @@
 (ns hello_world.core
-	(:require [dommy.core :as d :refer-macros [sel1]])
+	(:require [dommy.core :as dom :refer-macros [sel1]])
 	)
 
 (def nine-letter-words [
@@ -38,8 +38,12 @@
     [word wordlist]
     (filter #(= (sort %) (sort word)) wordlist))
 
-	
-(doseq [match (anagrams "GYTINORAS" nine-letter-words)]
-    (d/append! (d/sel1 :#results) (d/set-text! (d/create-element "li") match))
-    )
 
+(defn onclick
+	[e]
+	(let [letters (dom/value (dom/sel1 :input))]
+		(doseq [match (anagrams letters nine-letter-words)]
+			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match))
+			)))
+
+(dom/listen! (dom/sel1 :button) :click onclick)
