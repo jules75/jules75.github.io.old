@@ -37,6 +37,5 @@
                         
 
 (doseq [match (anagrams "INGDICTTA" nine-letter-words)]
-    ;(. js/console (log match))
-    (js/alert match)
+    (. js/console (log match))
     )
