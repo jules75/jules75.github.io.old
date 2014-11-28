@@ -1,5 +1,6 @@
 (ns hello_world.core
-	(:require [dommy.core :as dom :refer-macros [sel1]])
+	(:require [dommy.core :as dom :refer-macros [sel1]]
+			[clojure.string :refer [upper-case]])
 	)
 
 (def nine-letter-words [
@@ -41,7 +42,7 @@
 
 (defn onclick
 	[e]
-	(let [letters (dom/value (dom/sel1 :input))]
+	(let [letters (-> :input dom/sel1 dom/value upper-case)]
 		(doseq [match (anagrams letters nine-letter-words)]
 			(dom/append! (dom/sel1 :#results) (dom/set-text! (dom/create-element "li") match))
 			)))
