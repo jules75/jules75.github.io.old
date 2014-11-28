@@ -13,15 +13,22 @@
 ; state
 (def results (atom []))
 (def hint-count (atom 0))
-	
+
+
+(defn subs
+	[n s]
+	"First n chars of string s"
+	(apply str (take n s)))
 	
 (defn ui-update
 	"Update UI according to current state"
 	[]
-	(-> :h2 dom/sel1 (dom/set-text! (str (count @results) " anagram(s) found")))
-	(dom/set-text! (dom/sel1 :#result) (apply str (take @hint-count (first @results))))
+	(-> (dom/sel1 :h2) (dom/set-text! (str (count @results) " anagram(s) found")))
 	(dom/toggle! (dom/sel1 :#hint) (pos? (count @results)))
-	)
+	(dom/clear! (dom/sel1 :#result))
+	(doseq [res @results]
+		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") (subs @hint-count res)))
+		))
 
 
 (defn on-find
@@ -33,7 +40,8 @@
 		(ui-update)
 		(.preventDefault e)
 		))
-		
+
+
 (defn on-hint
 	[e]	
 	(swap! hint-count inc)
