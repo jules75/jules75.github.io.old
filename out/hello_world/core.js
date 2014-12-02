@@ -8,10 +8,20 @@ goog.require('dommy.core');
 goog.require('dommy.core');
 goog.require('hello_world.data');
 /**
-* Find all anagrams of 'word' in wordlist.
+* Gives string a score, useful for determining anagrams
+* and partial anagrams. Expects uppercase string.
+* If two words have they same score, they are anagrams.
+* If A's score is a factor of B's score, each letter in A is contained in B.
 */
-hello_world.core.anagrams = (function anagrams(word,wordlist){return cljs.core.filter.call(null,(function (p1__7338_SHARP_){return cljs.core._EQ_.call(null,cljs.core.sort.call(null,p1__7338_SHARP_),cljs.core.sort.call(null,word));
-}),wordlist);
+hello_world.core.score = (function score(s){var primes = new cljs.core.PersistentVector(null, 26, 5, cljs.core.PersistentVector.EMPTY_NODE, [(2),(3),(5),(7),(11),(13),(17),(19),(23),(29),(31),(37),(41),(43),(47),(53),(59),(61),(67),(71),(73),(79),(83),(89),(97),(101)], null);var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";var lookup = cljs.core.zipmap.call(null,letters,primes);return cljs.core.apply.call(null,cljs.core._STAR_,cljs.core.map.call(null,((function (primes,letters,lookup){
+return (function (p1__9189_SHARP_){return cljs.core.get.call(null,lookup,p1__9189_SHARP_);
+});})(primes,letters,lookup))
+,s));
+});
+/**
+* True if each letter in s1 is contained in s2.
+*/
+hello_world.core.partial_anagram_QMARK_ = (function partial_anagram_QMARK_(s1,s2){return (cljs.core.rem.call(null,hello_world.core.score.call(null,s2),hello_world.core.score.call(null,s1)) === (0));
 });
 hello_world.core.results = cljs.core.atom.call(null,cljs.core.PersistentVector.EMPTY);
 hello_world.core.hint_count = cljs.core.atom.call(null,(0));
@@ -23,45 +33,45 @@ hello_world.core.substr = (function substr(n,s){return cljs.core.apply.call(null
 hello_world.core.ui_update = (function ui_update(){dommy.core.set_text_BANG_.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("h2"))[(0)]),(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.count.call(null,cljs.core.deref.call(null,hello_world.core.results)))+" anagram(s) found"));
 dommy.core.toggle_BANG_.call(null,document.getElementById("hint"),(cljs.core.count.call(null,cljs.core.deref.call(null,hello_world.core.results)) > (0)));
 dommy.core.clear_BANG_.call(null,document.getElementById("result"));
-var seq__7343 = cljs.core.seq.call(null,cljs.core.deref.call(null,hello_world.core.results));var chunk__7344 = null;var count__7345 = (0);var i__7346 = (0);while(true){
-if((i__7346 < count__7345))
-{var res = cljs.core._nth.call(null,chunk__7344,i__7346);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),hello_world.core.substr.call(null,cljs.core.deref.call(null,hello_world.core.hint_count),res)));
+var seq__9194 = cljs.core.seq.call(null,cljs.core.deref.call(null,hello_world.core.results));var chunk__9195 = null;var count__9196 = (0);var i__9197 = (0);while(true){
+if((i__9197 < count__9196))
+{var res = cljs.core._nth.call(null,chunk__9195,i__9197);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),hello_world.core.substr.call(null,cljs.core.deref.call(null,hello_world.core.hint_count),res)));
 {
-var G__7347 = seq__7343;
-var G__7348 = chunk__7344;
-var G__7349 = count__7345;
-var G__7350 = (i__7346 + (1));
-seq__7343 = G__7347;
-chunk__7344 = G__7348;
-count__7345 = G__7349;
-i__7346 = G__7350;
+var G__9198 = seq__9194;
+var G__9199 = chunk__9195;
+var G__9200 = count__9196;
+var G__9201 = (i__9197 + (1));
+seq__9194 = G__9198;
+chunk__9195 = G__9199;
+count__9196 = G__9200;
+i__9197 = G__9201;
 continue;
 }
 } else
-{var temp__4126__auto__ = cljs.core.seq.call(null,seq__7343);if(temp__4126__auto__)
-{var seq__7343__$1 = temp__4126__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__7343__$1))
-{var c__4408__auto__ = cljs.core.chunk_first.call(null,seq__7343__$1);{
-var G__7351 = cljs.core.chunk_rest.call(null,seq__7343__$1);
-var G__7352 = c__4408__auto__;
-var G__7353 = cljs.core.count.call(null,c__4408__auto__);
-var G__7354 = (0);
-seq__7343 = G__7351;
-chunk__7344 = G__7352;
-count__7345 = G__7353;
-i__7346 = G__7354;
+{var temp__4126__auto__ = cljs.core.seq.call(null,seq__9194);if(temp__4126__auto__)
+{var seq__9194__$1 = temp__4126__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__9194__$1))
+{var c__4408__auto__ = cljs.core.chunk_first.call(null,seq__9194__$1);{
+var G__9202 = cljs.core.chunk_rest.call(null,seq__9194__$1);
+var G__9203 = c__4408__auto__;
+var G__9204 = cljs.core.count.call(null,c__4408__auto__);
+var G__9205 = (0);
+seq__9194 = G__9202;
+chunk__9195 = G__9203;
+count__9196 = G__9204;
+i__9197 = G__9205;
 continue;
 }
 } else
-{var res = cljs.core.first.call(null,seq__7343__$1);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),hello_world.core.substr.call(null,cljs.core.deref.call(null,hello_world.core.hint_count),res)));
+{var res = cljs.core.first.call(null,seq__9194__$1);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),hello_world.core.substr.call(null,cljs.core.deref.call(null,hello_world.core.hint_count),res)));
 {
-var G__7355 = cljs.core.next.call(null,seq__7343__$1);
-var G__7356 = null;
-var G__7357 = (0);
-var G__7358 = (0);
-seq__7343 = G__7355;
-chunk__7344 = G__7356;
-count__7345 = G__7357;
-i__7346 = G__7358;
+var G__9206 = cljs.core.next.call(null,seq__9194__$1);
+var G__9207 = null;
+var G__9208 = (0);
+var G__9209 = (0);
+seq__9194 = G__9206;
+chunk__9195 = G__9207;
+count__9196 = G__9208;
+i__9197 = G__9209;
 continue;
 }
 }
@@ -72,17 +82,20 @@ continue;
 break;
 }
 });
-hello_world.core.on_find = (function on_find(e){var letters = clojure.string.replace.call(null,clojure.string.upper_case.call(null,dommy.core.value.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("input"))[(0)]))),/\s/,"");var dict = cljs.core.atom.call(null,hello_world.data.nine_letter_words);var chunk = (100);cljs.core.reset_BANG_.call(null,hello_world.core.results,cljs.core.PersistentVector.EMPTY);
+hello_world.core.on_find = (function on_find(e){var letters = clojure.string.replace.call(null,clojure.string.upper_case.call(null,dommy.core.value.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("input"))[(0)]))),/\s/,"");var dict = cljs.core.atom.call(null,hello_world.data.nine_letter_words);var chunk = (500);cljs.core.reset_BANG_.call(null,hello_world.core.results,cljs.core.PersistentVector.EMPTY);
 cljs.core.reset_BANG_.call(null,hello_world.core.hint_count,(0));
 while(true){
 if(cljs.core.seq.call(null,cljs.core.deref.call(null,dict)))
-{cljs.core.swap_BANG_.call(null,hello_world.core.results,((function (letters,dict,chunk){
-return (function (p1__7359_SHARP_){return cljs.core.into.call(null,p1__7359_SHARP_,hello_world.core.anagrams.call(null,letters,cljs.core.take.call(null,chunk,cljs.core.deref.call(null,dict))));
+{var anagrams_9213 = cljs.core.filter.call(null,((function (letters,dict,chunk){
+return (function (p1__9210_SHARP_){return hello_world.core.partial_anagram_QMARK_.call(null,letters,p1__9210_SHARP_);
 });})(letters,dict,chunk))
+,cljs.core.take.call(null,chunk,cljs.core.deref.call(null,dict)));cljs.core.swap_BANG_.call(null,hello_world.core.results,((function (anagrams_9213,letters,dict,chunk){
+return (function (p1__9211_SHARP_){return cljs.core.into.call(null,p1__9211_SHARP_,anagrams_9213);
+});})(anagrams_9213,letters,dict,chunk))
 );
 hello_world.core.ui_update.call(null);
 cljs.core.swap_BANG_.call(null,dict,((function (letters,dict,chunk){
-return (function (p1__7360_SHARP_){return cljs.core.drop.call(null,chunk,p1__7360_SHARP_);
+return (function (p1__9212_SHARP_){return cljs.core.drop.call(null,chunk,p1__9212_SHARP_);
 });})(letters,dict,chunk))
 );
 {

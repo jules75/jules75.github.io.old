@@ -4,12 +4,23 @@
 			[clojure.string :refer [upper-case replace]]))
 
 
-(defn anagrams
-    "Find all anagrams of 'word' in wordlist."
-    [word wordlist]
-    (filter #(= (sort %) (sort word)) wordlist))
-
-
+(defn score
+	"Gives string a score, useful for determining anagrams
+	and partial anagrams. Expects uppercase string.
+	If two words have they same score, they are anagrams.
+	If A's score is a factor of B's score, each letter in A is contained in B."
+	[s]
+	(let [primes [2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 101]
+		letters "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		lookup (zipmap letters primes)]
+		(apply * (map #(get lookup %) s))
+		))
+		
+(defn partial-anagram?
+	"True if each letter in s1 is contained in s2."
+	[s1 s2]
+	(zero? (rem (score s2) (score s1))))
+	
 ; state
 (def results (atom []))
 (def hint-count (atom 0))
@@ -35,11 +46,12 @@
 	[e]
 	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
 			dict (atom nine-letter-words)
-			chunk 100]
+			chunk 500]
 		(reset! results [])
 		(reset! hint-count 0)
 		(while (seq @dict)
-			(swap! results #(into % (anagrams letters (take chunk @dict))))
+			(let [anagrams (filter #(partial-anagram? letters %) (take chunk @dict))]
+				(swap! results #(into % anagrams)))
 			(ui-update)
 			(swap! dict #(drop chunk %))
 			)
@@ -59,3 +71,4 @@
 (dom/listen! (dom/sel1 :#hint) :click on-hint)
 
 (ui-update)
+
