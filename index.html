@@ -8,6 +8,7 @@
 	footer {
 		position: fixed;
 		bottom: 0;
+		right: 0;
 	}
 	</style>
     </head>
@@ -15,16 +16,15 @@
     <body>
         
 		<form>
-        <input type="text" autofocus="autofocus" placeholder="Type 9 letters here"></input>
-        <button>Find anagrams</button>
+        <input type="text" autofocus="autofocus" placeholder="Type letters here"></input>
+        <button>Find words containing these letters</button>
 		</form>
 		
 		<h2></h2>
-		<button id="hint">Show hint</button>
 		<ol id="result"></ol>
 		
 		<footer>
-		<p><a href="src/hello_world/data.cljs">9 letter word list</a></p>
+		<p><a href="src/hello_world/data.cljs">Word list</a></p>
 		</footer>
 		
 		<script src="out/goog/base.js" type="text/javascript"></script>

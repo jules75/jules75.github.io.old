@@ -4,6 +4,12 @@
 			[clojure.string :refer [upper-case replace]]))
 
 
+; mutable state
+(def search (atom nil))
+(def found (atom []))
+(def dict (atom []))
+
+
 (defn score
 	"Gives string a score, useful for determining anagrams
 	and partial anagrams. Expects uppercase string.
@@ -20,12 +26,6 @@
 	"True if each letter in s1 is contained in s2."
 	[s1 s2]
 	(zero? (rem (score s2) (score s1))))
-	
-; mutable state
-(def search (atom nil))
-(def found (atom []))
-(def dict (atom []))
-(def hint-count (atom 0))
 
 
 (defn init-state!
@@ -34,7 +34,6 @@
 	(reset! search nil)
 	(reset! found [])
 	(reset! dict nine-letter-words)
-	(reset! hint-count 0)
 	)
 
 
@@ -42,15 +41,15 @@
 	[n s]
 	"First n chars of string s"
 	(apply str (take n s)))
-	
+
+
 (defn ui-update
 	"Update UI according to current state"
 	[]
 	(-> (dom/sel1 :h2) (dom/set-text! (str (count @found) " anagram(s) found")))
-	(dom/toggle! (dom/sel1 :#hint) (pos? (count @found)))
 	(dom/clear! (dom/sel1 :#result))
 	(doseq [res @found]
-		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") (substr @hint-count res)))
+		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") res))
 		))
 
 		
@@ -59,7 +58,7 @@
 	Called in chunks to avoid blocking."
 	[]
 	(when (pos? (count @search))
-		(let [chunk 500
+		(let [chunk 1000
 				anagrams (filter #(partial-anagram? @search %) (take chunk @dict))]
 				(swap! found #(into % anagrams))
 				(swap! dict #(drop chunk %))
@@ -75,16 +74,9 @@
 		))
 
 
-(defn on-hint
-	[e]	
-	(swap! hint-count inc)
-	(ui-update)
-	)
-
-
 ; listeners
 (dom/listen! (dom/sel1 :form) :submit on-find)
-(dom/listen! (dom/sel1 :#hint) :click on-hint)
+
 
 ; timers
 (js/setInterval find-some-anagrams 1000)
