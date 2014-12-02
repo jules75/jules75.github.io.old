@@ -21,9 +21,21 @@
 	[s1 s2]
 	(zero? (rem (score s2) (score s1))))
 	
-; state
-(def results (atom []))
+; mutable state
+(def search (atom nil))
+(def found (atom []))
+(def dict (atom []))
 (def hint-count (atom 0))
+
+
+(defn init-state!
+	"Reset mutable state."
+	[]
+	(reset! search nil)
+	(reset! found [])
+	(reset! dict nine-letter-words)
+	(reset! hint-count 0)
+	)
 
 
 (defn substr
@@ -34,27 +46,31 @@
 (defn ui-update
 	"Update UI according to current state"
 	[]
-	(-> (dom/sel1 :h2) (dom/set-text! (str (count @results) " anagram(s) found")))
-	(dom/toggle! (dom/sel1 :#hint) (pos? (count @results)))
+	(-> (dom/sel1 :h2) (dom/set-text! (str (count @found) " anagram(s) found")))
+	(dom/toggle! (dom/sel1 :#hint) (pos? (count @found)))
 	(dom/clear! (dom/sel1 :#result))
-	(doseq [res @results]
+	(doseq [res @found]
 		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") (substr @hint-count res)))
 		))
 
+		
+(defn find-some-anagrams
+	"Find some (not all) anagrams based on current app state.
+	Called in chunks to avoid blocking."
+	[]
+	(when (pos? (count @search))
+		(let [chunk 500
+				anagrams (filter #(partial-anagram? @search %) (take chunk @dict))]
+				(swap! found #(into % anagrams))
+				(swap! dict #(drop chunk %))
+				)))
+			
 
 (defn on-find
 	[e]
-	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
-			dict (atom nine-letter-words)
-			chunk 500]
-		(reset! results [])
-		(reset! hint-count 0)
-		(while (seq @dict)
-			(let [anagrams (filter #(partial-anagram? letters %) (take chunk @dict))]
-				(swap! results #(into % anagrams)))
-			(ui-update)
-			(swap! dict #(drop chunk %))
-			)
+	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))]
+		(init-state!)
+		(reset! search letters)
 		(.preventDefault e)
 		))
 
@@ -70,5 +86,11 @@
 (dom/listen! (dom/sel1 :form) :submit on-find)
 (dom/listen! (dom/sel1 :#hint) :click on-hint)
 
-(ui-update)
+; timers
+(js/setInterval find-some-anagrams 1000)
+(js/setInterval ui-update 1000)
+
+
+(init-state!)
+
 
