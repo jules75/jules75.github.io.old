@@ -1,15 +1,15 @@
-// Compiled by ClojureScript 0.0-2311
+// Compiled by ClojureScript 0.0-2371
 goog.provide('dommy.utils');
 goog.require('cljs.core');
 /**
 * Dissociate this keyseq from m, removing any empty maps created as a result
 * (including at the top-level).
 */
-dommy.utils.dissoc_in = (function dissoc_in(m,p__5967){var vec__5969 = p__5967;var k = cljs.core.nth.call(null,vec__5969,(0),null);var ks = cljs.core.nthnext.call(null,vec__5969,(1));if(cljs.core.truth_(m))
-{var temp__4124__auto__ = (function (){var and__3539__auto__ = ks;if(and__3539__auto__)
+dommy.utils.dissoc_in = (function dissoc_in(m,p__7274){var vec__7276 = p__7274;var k = cljs.core.nth.call(null,vec__7276,(0),null);var ks = cljs.core.nthnext.call(null,vec__7276,(1));if(cljs.core.truth_(m))
+{var temp__4124__auto__ = (function (){var and__3626__auto__ = ks;if(and__3626__auto__)
 {return dissoc_in.call(null,m.call(null,k),ks);
 } else
-{return and__3539__auto__;
+{return and__3626__auto__;
 }
 })();if(cljs.core.truth_(temp__4124__auto__))
 {var res = temp__4124__auto__;return cljs.core.assoc.call(null,m,k,res);
@@ -31,7 +31,7 @@ dommy.utils.__GT_Array = (function __GT_Array(array_like){return Array.prototype
 * namespaced keywords
 */
 dommy.utils.as_str = (function as_str(s){if((s instanceof cljs.core.Keyword))
-{return (''+cljs.core.str.cljs$core$IFn$_invoke$arity$1((function (){var G__5971 = cljs.core.namespace.call(null,s);var G__5971__$1 = (((G__5971 == null))?null:(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__5971)+"/"));return G__5971__$1;
+{return (''+cljs.core.str.cljs$core$IFn$_invoke$arity$1((function (){var G__7278 = cljs.core.namespace.call(null,s);var G__7278__$1 = (((G__7278 == null))?null:(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__7278)+"/"));return G__7278__$1;
 })())+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.name.call(null,s)));
 } else
 {return s;
@@ -41,14 +41,14 @@ dommy.utils.as_str = (function as_str(s){if((s instanceof cljs.core.Keyword))
 * Does `class-name` string have class starting at index idx.
 * only will be used when Element::classList doesn't exist
 */
-dommy.utils.class_match_QMARK_ = (function class_match_QMARK_(class_name,class$,idx){var and__3539__auto__ = ((idx === (0))) || ((" " === class_name.charAt((idx - (1)))));if(and__3539__auto__)
+dommy.utils.class_match_QMARK_ = (function class_match_QMARK_(class_name,class$,idx){var and__3626__auto__ = ((idx === (0))) || ((" " === class_name.charAt((idx - (1)))));if(and__3626__auto__)
 {var total_len = class_name.length;var stop = (idx + class$.length);if((stop <= total_len))
 {return ((stop === total_len)) || ((" " === class_name.charAt(stop)));
 } else
 {return null;
 }
 } else
-{return and__3539__auto__;
+{return and__3626__auto__;
 }
 });
 /**
@@ -61,8 +61,8 @@ var i = class_name.indexOf(class$,start_from);if((i >= (0)))
 {return i;
 } else
 {{
-var G__5972 = (i + class$.length);
-start_from = G__5972;
+var G__7279 = (i + class$.length);
+start_from = G__7279;
 continue;
 }
 }
@@ -75,9 +75,9 @@ break;
 dommy.utils.remove_class_str = (function remove_class_str(init_class_name,class$){var class_name = init_class_name;while(true){
 var class_len = class_name.length;var temp__4124__auto__ = dommy.utils.class_index.call(null,class_name,class$);if(cljs.core.truth_(temp__4124__auto__))
 {var i = temp__4124__auto__;{
-var G__5973 = (function (){var end = (i + class$.length);return (''+cljs.core.str.cljs$core$IFn$_invoke$arity$1((((end < class_len))?(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(class_name.substring((0),i))+cljs.core.str.cljs$core$IFn$_invoke$arity$1(class_name.substr((end + (1))))):class_name.substring((0),(i - (1))))));
+var G__7280 = (function (){var end = (i + class$.length);return (''+cljs.core.str.cljs$core$IFn$_invoke$arity$1((((end < class_len))?(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(class_name.substring((0),i))+cljs.core.str.cljs$core$IFn$_invoke$arity$1(class_name.substr((end + (1))))):class_name.substring((0),(i - (1))))));
 })();
-class_name = G__5973;
+class_name = G__7280;
 continue;
 }
 } else

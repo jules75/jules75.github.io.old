@@ -15,7 +15,7 @@
 (def hint-count (atom 0))
 
 
-(defn subs
+(defn substr
 	[n s]
 	"First n chars of string s"
 	(apply str (take n s)))
@@ -27,17 +27,22 @@
 	(dom/toggle! (dom/sel1 :#hint) (pos? (count @results)))
 	(dom/clear! (dom/sel1 :#result))
 	(doseq [res @results]
-		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") (subs @hint-count res)))
+		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") (substr @hint-count res)))
 		))
 
 
 (defn on-find
 	[e]
 	(let [letters (-> :input dom/sel1 dom/value upper-case (replace #"\s" ""))
-			result (anagrams letters nine-letter-words)]
-		(reset! results result)
+			dict (atom nine-letter-words)
+			chunk 100]
+		(reset! results [])
 		(reset! hint-count 0)
-		(ui-update)
+		(while (seq @dict)
+			(swap! results #(into % (anagrams letters (take chunk @dict))))
+			(ui-update)
+			(swap! dict #(drop chunk %))
+			)
 		(.preventDefault e)
 		))
 
