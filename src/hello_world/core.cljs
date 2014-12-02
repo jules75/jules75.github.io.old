@@ -21,7 +21,8 @@
 		lookup (zipmap letters primes)]
 		(apply * (map #(get lookup %) s))
 		))
-		
+
+
 (defn partial-anagram?
 	"True if each letter in s1 is contained in s2."
 	[s1 s2]
@@ -33,8 +34,7 @@
 	[]
 	(reset! search nil)
 	(reset! found [])
-	(reset! dict nine-letter-words)
-	)
+	(reset! dict nine-letter-words))
 
 
 (defn substr
@@ -46,11 +46,12 @@
 (defn ui-update
 	"Update UI according to current state"
 	[]
-	(-> (dom/sel1 :h2) (dom/set-text! (str (count @found) " anagram(s) found")))
-	(dom/clear! (dom/sel1 :#result))
-	(doseq [res @found]
-		(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") res))
-		))
+	(when (pos? (count @search))
+		(-> (dom/sel1 :h2) (dom/set-text! (str (count @found) " word(s) found")))
+		(dom/clear! (dom/sel1 :#result))
+		(doseq [res @found]
+			(dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") res))
+			)))
 
 		
 (defn find-some-anagrams
@@ -58,7 +59,7 @@
 	Called in chunks to avoid blocking."
 	[]
 	(when (pos? (count @search))
-		(let [chunk 1000
+		(let [chunk 500
 				anagrams (filter #(partial-anagram? @search %) (take chunk @dict))]
 				(swap! found #(into % anagrams))
 				(swap! dict #(drop chunk %))
