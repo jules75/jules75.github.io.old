@@ -1,5 +1,5 @@
 (ns hello_world.core
-	(:require [hello_world.data :refer [nine-letter-words]]
+	(:require [hello_world.data :refer [words]]
 			[dommy.core :as dom :refer-macros [sel1]]
 			[clojure.string :refer [upper-case replace]]))
 
@@ -34,7 +34,7 @@
 	[]
 	(reset! search nil)
 	(reset! found [])
-	(reset! dict nine-letter-words))
+	(reset! dict words))
 
 
 (defn substr
