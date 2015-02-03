@@ -3,123 +3,26 @@ goog.provide('hello_world.core');
 goog.require('cljs.core');
 goog.require('hello_world.data');
 goog.require('clojure.string');
+goog.require('goog.net.XhrIo');
 goog.require('clojure.string');
 goog.require('dommy.core');
 goog.require('dommy.core');
 goog.require('hello_world.data');
-hello_world.core.search = cljs.core.atom.call(null,null);
-hello_world.core.found = cljs.core.atom.call(null,cljs.core.PersistentVector.EMPTY);
-hello_world.core.dict = cljs.core.atom.call(null,cljs.core.PersistentVector.EMPTY);
+hello_world.core.raw = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\t<head>\n\t\t<title>Cemetery Search Results</title>\n\t\t<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n\t\t<meta name=\"keywords\" content=\"Ballaarat General Cemeteries,History,Burials,Lookup,Results\" />\n\t\t<meta name=\"description\" content=\"Ballaarat General Cemeteries, History\" />\n\t\t<meta name=\"robots\" content=\"follow,index\"/>\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n\t\t<link href=\"../css/bgcDB.css\" rel=\"stylesheet\" media=\"screen\" type=\"text/css\" /> \n\t</head>\n\t<body>\n\t\t<div id=\"container\">\n \t\t\t<div id=\"banner\">\n\t\t\t\t<a href=\"../index.html\"><img src=\"../images/main site copy_r1_c1.jpg\" alt=\"Banner\" title=\"Home Page\"/></a>\n\t\t\t</div>\n\t\t\t<h1 id=\"resultshead\">Cemetery Search Results</h1>\n\t\t\t<div id=\"resultsbrowse\">\n<table id=\"resultstable\">\n<tr><th>Name</th><th>Age</th><th>Funeral/Crem</th></tr>\n<tr><td>LAFFEY THOMAS</td><td>74</td><td>1/01/1917</td><td><a href=\"../php/details.php?id=52373\">Details</a></td></tr>\n<tr><td>Laffey Thomas David</td><td>70</td><td>30/08/2004</td><td><a href=\"../php/details.php?id=130549\">Details</a></td></tr>\n</table>\n</div>\n<div class=\"navbar1\">\n<span class=\"pagenav\"><a href=\"../index.html\">Home</a>&nbsp;&nbsp;\n<a href=\"javascript: history.go(-1);\">Back</a>&nbsp;&nbsp;\n<a href=\"../php/search.php\" title=\"New search\">Search</a>\n</span>\n<span class=\"dbnav\">\nPrevious\n&nbsp;&nbsp;Next\n</span>\n</div>\n<div class=\"navbar2\">\n<span class=\"pagenav\"><a href=\"../index.html\">Home</a>&nbsp;&nbsp;\n<a href=\"javascript: history.go(-1);\">Back</a>&nbsp;&nbsp;\n<a href=\"../php/search.php\" title=\"New search\">Search</a>\n</span>\n<span class=\"dbnav\">\nPrevious\n&nbsp;&nbsp;Next\n</span>\n</div>\n\t\t</div>\n\t</body>\n</html>";
+hello_world.core.url = "http://localhost/php/results.php";
 /**
-* Gives string a score, useful for determining anagrams
-* and partial anagrams. Expects uppercase string.
-* If two words have they same score, they are anagrams.
-* If A's score is a factor of B's score, each letter in A is contained in B.
+* Given single HTML table row, returns map of person data.
 */
-hello_world.core.score = (function score(s){var primes = new cljs.core.PersistentVector(null, 26, 5, cljs.core.PersistentVector.EMPTY_NODE, [(2),(3),(5),(7),(11),(13),(17),(19),(23),(29),(31),(37),(41),(43),(47),(53),(59),(61),(67),(71),(73),(79),(83),(89),(97),(101)], null);var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";var lookup = cljs.core.zipmap.call(null,letters,primes);return cljs.core.apply.call(null,cljs.core._STAR_,cljs.core.map.call(null,((function (primes,letters,lookup){
-return (function (p1__10253_SHARP_){return cljs.core.get.call(null,lookup,p1__10253_SHARP_);
-});})(primes,letters,lookup))
-,s));
+hello_world.core.parse_row = (function parse_row(html){var vec__6952 = cljs.core.map.call(null,cljs.core.last,cljs.core.re_seq.call(null,/<td>(.*?)<\/td>/,html));var name = cljs.core.nth.call(null,vec__6952,(0),null);var age = cljs.core.nth.call(null,vec__6952,(1),null);var death = cljs.core.nth.call(null,vec__6952,(2),null);var link = cljs.core.nth.call(null,vec__6952,(3),null);var id = cljs.core.last.call(null,cljs.core.re_find.call(null,/id=(.*?)\"/,link));return new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"name","name",1843675177),name,new cljs.core.Keyword(null,"age","age",-604307804),age,new cljs.core.Keyword(null,"death","death",2026112826),death,new cljs.core.Keyword(null,"id","id",-1388402092),id], null);
 });
 /**
-* True if each letter in s1 is contained in s2.
+* Takes entire HTML response from Ballarat Cemeteries and returns person
+* objects (name, age, death, id).
 */
-hello_world.core.partial_anagram_QMARK_ = (function partial_anagram_QMARK_(s1,s2){return (cljs.core.rem.call(null,hello_world.core.score.call(null,s2),hello_world.core.score.call(null,s1)) === (0));
+hello_world.core.parse_file = (function parse_file(html){var s = clojure.string.replace.call(null,html,/[\r\n]/," ");var table = cljs.core.first.call(null,cljs.core.re_find.call(null,/id=\"resultstable\">(.*?)<\/tab/,s));var rows = cljs.core.rest.call(null,cljs.core.map.call(null,cljs.core.first,cljs.core.re_seq.call(null,/<tr>(.*?)<\/tr>/,table)));return cljs.core.doall.call(null,cljs.core.mapv.call(null,hello_world.core.parse_row,rows));
 });
-/**
-* Reset mutable state.
-*/
-hello_world.core.init_state_BANG_ = (function init_state_BANG_(){cljs.core.reset_BANG_.call(null,hello_world.core.search,null);
-cljs.core.reset_BANG_.call(null,hello_world.core.found,cljs.core.PersistentVector.EMPTY);
-return cljs.core.reset_BANG_.call(null,hello_world.core.dict,hello_world.data.words);
+hello_world.core.callback = (function callback(reply){var text = reply.target.getResponseText();return console.log(cljs.core.clj__GT_js.call(null,hello_world.core.parse_file.call(null,text)));
 });
-hello_world.core.substr = (function substr(n,s){return cljs.core.apply.call(null,cljs.core.str,cljs.core.take.call(null,n,s));
-});
-/**
-* Update UI according to current state
-*/
-hello_world.core.ui_update = (function ui_update(){if((cljs.core.count.call(null,cljs.core.deref.call(null,hello_world.core.search)) > (0)))
-{dommy.core.set_text_BANG_.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("h2"))[(0)]),(''+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.count.call(null,cljs.core.deref.call(null,hello_world.core.found)))+" word(s) found"));
-dommy.core.clear_BANG_.call(null,document.getElementById("result"));
-var seq__10258 = cljs.core.seq.call(null,cljs.core.deref.call(null,hello_world.core.found));var chunk__10259 = null;var count__10260 = (0);var i__10261 = (0);while(true){
-if((i__10261 < count__10260))
-{var res = cljs.core._nth.call(null,chunk__10259,i__10261);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),res));
-{
-var G__10262 = seq__10258;
-var G__10263 = chunk__10259;
-var G__10264 = count__10260;
-var G__10265 = (i__10261 + (1));
-seq__10258 = G__10262;
-chunk__10259 = G__10263;
-count__10260 = G__10264;
-i__10261 = G__10265;
-continue;
-}
-} else
-{var temp__4126__auto__ = cljs.core.seq.call(null,seq__10258);if(temp__4126__auto__)
-{var seq__10258__$1 = temp__4126__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__10258__$1))
-{var c__4408__auto__ = cljs.core.chunk_first.call(null,seq__10258__$1);{
-var G__10266 = cljs.core.chunk_rest.call(null,seq__10258__$1);
-var G__10267 = c__4408__auto__;
-var G__10268 = cljs.core.count.call(null,c__4408__auto__);
-var G__10269 = (0);
-seq__10258 = G__10266;
-chunk__10259 = G__10267;
-count__10260 = G__10268;
-i__10261 = G__10269;
-continue;
-}
-} else
-{var res = cljs.core.first.call(null,seq__10258__$1);dommy.core.append_BANG_.call(null,document.getElementById("result"),dommy.core.set_text_BANG_.call(null,dommy.core.create_element.call(null,"li"),res));
-{
-var G__10270 = cljs.core.next.call(null,seq__10258__$1);
-var G__10271 = null;
-var G__10272 = (0);
-var G__10273 = (0);
-seq__10258 = G__10270;
-chunk__10259 = G__10271;
-count__10260 = G__10272;
-i__10261 = G__10273;
-continue;
-}
-}
-} else
-{return null;
-}
-}
-break;
-}
-} else
-{return null;
-}
-});
-/**
-* Find some (not all) anagrams based on current app state.
-* Called in chunks to avoid blocking.
-*/
-hello_world.core.find_some_anagrams = (function find_some_anagrams(){if((cljs.core.count.call(null,cljs.core.deref.call(null,hello_world.core.search)) > (0)))
-{var chunk = (500);var anagrams = cljs.core.filter.call(null,((function (chunk){
-return (function (p1__10274_SHARP_){return hello_world.core.partial_anagram_QMARK_.call(null,cljs.core.deref.call(null,hello_world.core.search),p1__10274_SHARP_);
-});})(chunk))
-,cljs.core.take.call(null,chunk,cljs.core.deref.call(null,hello_world.core.dict)));cljs.core.swap_BANG_.call(null,hello_world.core.found,((function (chunk,anagrams){
-return (function (p1__10275_SHARP_){return cljs.core.into.call(null,p1__10275_SHARP_,anagrams);
-});})(chunk,anagrams))
-);
-return cljs.core.swap_BANG_.call(null,hello_world.core.dict,((function (chunk,anagrams){
-return (function (p1__10276_SHARP_){return cljs.core.drop.call(null,chunk,p1__10276_SHARP_);
-});})(chunk,anagrams))
-);
-} else
-{return null;
-}
-});
-hello_world.core.on_find = (function on_find(e){var letters = clojure.string.replace.call(null,clojure.string.upper_case.call(null,dommy.core.value.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("input"))[(0)]))),/\s/,"");hello_world.core.init_state_BANG_.call(null);
-cljs.core.reset_BANG_.call(null,hello_world.core.search,letters);
-return e.preventDefault();
-});
-dommy.core.listen_BANG_.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("form"))[(0)]),new cljs.core.Keyword(null,"submit","submit",-49315317),hello_world.core.on_find);
-setInterval(hello_world.core.find_some_anagrams,(1000));
-setInterval(hello_world.core.ui_update,(1000));
-hello_world.core.init_state_BANG_.call(null);
+goog.net.XhrIo.send(hello_world.core.url,hello_world.core.callback,"POST","dataentered=laffey");
 
 //# sourceMappingURL=core.js.map
