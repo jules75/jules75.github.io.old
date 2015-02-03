@@ -5,19 +5,21 @@
            ))
 
 
-
-;(defn ui-update
-;  "Update UI according to current state"
-;  []
-;  (when (pos? (count @search))
-;	(-> (dom/sel1 :h2) (dom/set-text! (str (count @found) " word(s) found")))
-;	(dom/clear! (dom/sel1 :#result))
-;	(doseq [res @found]
-;	  (dom/append! (dom/sel1 :#result) (dom/set-text! (dom/create-element "li") res))
-;	  )))
+(def proxy-srv "http://localhost/php/results.php")
+(def results (atom []))
 
 
-(def proxy "http://localhost/php/results.php")
+(defn ui-update
+  "Update UI according to current state"
+  []
+  (when (pos? (count @results))
+	(-> (dom/sel1 :h2) (dom/set-text! (str (count @results) " result(s) found")))
+	(dom/clear! (dom/sel1 :#results))
+	(doseq [res @results]
+	  (dom/append! 
+          (dom/sel1 :#results) 
+          (dom/set-text! (dom/create-element "li") (:name res)))
+	  )))
 
 
 (defn parse-row
@@ -43,13 +45,15 @@
 (defn callback 
     [reply]
     (let [text (-> reply .-target .getResponseText)]
-        (.log js/console (clj->js (parse-file text)))
+        ;(.log js/console (clj->js (parse-file text)))
+        (reset! results (parse-file text))
+        (ui-update)
         ))
 
 (defn on-search
   [e]
   (let [s (-> :input dom/sel1 dom/value)]
-      (.send goog.net.XhrIo proxy callback "POST" (str "dataentered=" s))
+      (.send goog.net.XhrIo proxy-srv callback "POST" (str "dataentered=" s))
       (.preventDefault e)))
 
 
