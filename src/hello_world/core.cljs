@@ -40,12 +40,17 @@
 
 
 (defn ui-update
-  "Update UI according to current state"
-  []
-  (when (pos? (count @records))
-      (dom/clear! (dom/sel1 :#results))
-      (ui-create-list-items)
-      (ui-populate-list)))
+    "Update UI according to current state"
+    []
+
+    (dom/toggle! (dom/sel1 :#limit) (= @start-index MAX-RECORDS))
+    
+    (when (pos? (count @records))
+        (dom/clear! (dom/sel1 :#results))
+        (ui-create-list-items)
+        (ui-populate-list))
+    
+        )
 
 
 (defn parse-row
@@ -99,3 +104,5 @@
 
 ; listeners
 (dom/listen! (dom/sel1 :form) :submit on-search)
+
+(ui-update)

@@ -21,6 +21,18 @@ p {
     margin: 8pt 0;
 }
 
+p#limit {
+    position: fixed;
+    bottom: 0;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    opacity: 0.8;
+}
+
 ul#results {
     margin-top: 40pt;
 }
