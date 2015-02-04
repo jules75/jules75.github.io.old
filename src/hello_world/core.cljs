@@ -1,5 +1,5 @@
 (ns hello_world.core
-  (:require [dommy.core :as dom :refer-macros [sel1]]
+  (:require [dommy.core :as dom :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))
 
@@ -9,7 +9,7 @@
 
 ; mutable state
 (def records (atom []))
-(def more-to-fetch (atom true))
+(def keep-fetching? (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
 
@@ -18,16 +18,37 @@
   "Update UI according to current state"
   []
   (when (pos? (count @records))
-	(-> (dom/sel1 :h2) (dom/set-text! (str (count @records) " result(s) found")))
-	(dom/clear! (dom/sel1 :#results))
-	(doseq [rec @records]
-	  (dom/append! 
-          (dom/sel1 :#results) 
-          (->
-              (dom/create-element "li")
-              (dom/set-attr! :id (:id rec))
-              (dom/set-text! (:name rec))
-              )))))
+
+      ; set heading, clear results
+      (-> (dom/sel1 :h2) (dom/set-text! (str (count @records) " result(s) found")))
+      (dom/clear! (dom/sel1 :#results))
+	
+      ; create list items
+      (doseq [rec @records]
+        (dom/append! 
+            (dom/sel1 :#results) 
+                (-> (dom/create-element "li")
+                    (dom/set-attr! :id (:id rec))
+                    )))
+      
+      ; populate list items
+      (doseq [li (dom/sel :li)
+              :let [id (dom/attr li :id)
+                    rec (first (filter #(= id (:id %)) @records))
+                    f #(-> 
+                           (dom/create-element :p) 
+                           (dom/set-text! (get rec %))
+                           (dom/add-class! %)
+                           )
+                    [name age death] (map f [:name :age :death])]
+              ]
+          (-> li
+              (dom/append! name)
+              (dom/append! age)
+              (dom/append! death))
+          )
+      
+      ))
 
 
 (defn parse-row
@@ -57,10 +78,10 @@
     (let [text (-> reply .-target .getResponseText)]
         (swap! records concat (parse-file text))
         (swap! start-index + 15)
-        (reset! more-to-fetch (boolean (re-find #"start=" text)))
-        (when (and @more-to-fetch (< @start-index MAX-RECORDS))
+        (reset! keep-fetching? (boolean (re-find #"start=" text)))
+        (when (and @keep-fetching? (< @start-index MAX-RECORDS))
             (fetch))
-        (reset! more-to-fetch false) 
+        (reset! keep-fetching? false) 
         (ui-update)))
 
 
