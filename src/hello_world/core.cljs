@@ -14,25 +14,19 @@
 (def query (atom nil))
 
 
-(defn ui-update
-  "Update UI according to current state"
-  []
-  (when (pos? (count @records))
-
-      ; set heading, clear results
-      (-> (dom/sel1 :h3) (dom/set-text! (str (count @records) " results found")))
-      (dom/clear! (dom/sel1 :#results))
-	
-      ; create list items
-      (doseq [rec @records]
+(defn ui-create-list-items
+    []
+    (doseq [rec @records]
         (dom/append! 
             (dom/sel1 :#results) 
                 (-> (dom/create-element "li")
                     (dom/set-attr! :id (:id rec))
-                    )))
-      
-      ; populate list items
-      (doseq [li (dom/sel :li)
+                    ))))
+
+
+(defn ui-populate-list
+    []
+    (doseq [li (dom/sel :li)
               :let [id (dom/attr li :id)
                     rec (first (filter #(= id (:id %)) @records))
                     about (str "Died " (:death rec) " aged " (:age rec))]]
@@ -42,10 +36,16 @@
                                  (dom/add-class! :name)))
               (dom/append! (-> (dom/create-element :p)
                                  (dom/set-text! about)
-                                 (dom/add-class! :about)))
-                ))
-      
-      ))
+                                 (dom/add-class! :about))))))
+
+
+(defn ui-update
+  "Update UI according to current state"
+  []
+  (when (pos? (count @records))
+      (dom/clear! (dom/sel1 :#results))
+      (ui-create-list-items)
+      (ui-populate-list)))
 
 
 (defn parse-row
