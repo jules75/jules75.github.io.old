@@ -4,8 +4,8 @@
   (:import [goog.net XhrIo]))
 
 
-(def proxy-srv "http://localhost/php/results.php")
-
+(def PROXY-SRV "http://localhost/php/results.php")
+(def MAX-RECORDS 150)
 
 ; mutable state
 (def records (atom []))
@@ -52,9 +52,9 @@
     [reply]
     (let [text (-> reply .-target .getResponseText)]
         (swap! records concat (parse-file text))
+        (swap! start-index + 15)
         (reset! more-to-fetch (boolean (re-find #"start=" text)))
-        (when @more-to-fetch
-            (swap! start-index (partial + 15))
+        (when (and @more-to-fetch (< @start-index MAX-RECORDS))
             (fetch))
         (reset! more-to-fetch false) 
         (ui-update)))
@@ -63,7 +63,7 @@
 (defn fetch
     "Helper function, trigger request for records based on current state."
     []
-    (.send goog.net.XhrIo (str proxy-srv "?start=" @start-index "&dataentered=" @query) callback))
+    (.send goog.net.XhrIo (str PROXY-SRV "?start=" @start-index "&dataentered=" @query) callback))
 
 
 (defn on-search
