@@ -17,6 +17,10 @@ nav {
     box-shadow: 0 0 20px #888;
 }
 
+p {
+    margin: 8pt 0;
+}
+
 ul#results {
     margin-top: 40pt;
 }

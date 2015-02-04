@@ -20,7 +20,7 @@
   (when (pos? (count @records))
 
       ; set heading, clear results
-      (-> (dom/sel1 :h2) (dom/set-text! (str (count @records) " result(s) found")))
+      (-> (dom/sel1 :h3) (dom/set-text! (str (count @records) " results found")))
       (dom/clear! (dom/sel1 :#results))
 	
       ; create list items
@@ -35,13 +35,15 @@
       (doseq [li (dom/sel :li)
               :let [id (dom/attr li :id)
                     rec (first (filter #(= id (:id %)) @records))
-                    f #(-> (dom/create-element :p) 
-                            (dom/set-text! (get rec %))
-                            (dom/add-class! %))]]
+                    about (str "Died " (:death rec) " aged " (:age rec))]]
           (-> li
-              (dom/append! (f :name))
-              (dom/append! (f :age))
-              (dom/append! (f :death))))
+              (dom/append! (-> (dom/create-element :p)
+                                 (dom/set-text! (:name rec))
+                                 (dom/add-class! :name)))
+              (dom/append! (-> (dom/create-element :p)
+                                 (dom/set-text! about)
+                                 (dom/add-class! :about)))
+                ))
       
       ))
 
