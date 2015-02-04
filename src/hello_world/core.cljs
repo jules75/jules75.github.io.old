@@ -16,6 +16,8 @@
 
 
 (defn parse-details
+    "Given records details HTML from Ballarat Cememeteries, returns map
+    of details (location, name, area etc.)"
     [html]
     (let [s (replace html #"[\r\n]" " ")
           location (last (re-find #"id=\"detailhead\">(.*?)</h1" s))
@@ -23,8 +25,14 @@
           table (last (re-find #"id=\"loctable\">(.*?)</tab" s))
           cells (map last (re-seq #"<td>(.*?)</td>" table))
           [area1 area2 section1 section2 row grave] (take-nth 2 (rest cells))]
-        [location fullname area1 area2 section1 section2 row grave]
-        ))
+        {:location location ; there must be a better way to do this?
+         :fullname fullname 
+         :area1 area1 
+         :area2 area2 
+         :section1 section1 
+         :section2 section2 
+         :row row 
+         :grave grave}))
 
 
 (defn ui-create-list-items
