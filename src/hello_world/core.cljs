@@ -29,14 +29,14 @@
     (doseq [li (dom/sel :li)
               :let [id (dom/attr li :id)
                     rec (first (filter #(= id (:id %)) @records))
-                    about (str "Died " (:death rec) " aged " (:age rec))]]
+                    about (str "Died " (:death rec) " aged " (:age rec))
+                    f #(dom/append! 
+                           %1 (-> (dom/create-element :p)
+                                  (dom/set-text! %2)
+                                  (dom/add-class! %3)))]]
           (-> li
-              (dom/append! (-> (dom/create-element :p)
-                                 (dom/set-text! (:name rec))
-                                 (dom/add-class! :name)))
-              (dom/append! (-> (dom/create-element :p)
-                                 (dom/set-text! about)
-                                 (dom/add-class! :about))))))
+              (f (:name rec) :name)
+              (f about :about))))
 
 
 (defn ui-update
