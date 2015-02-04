@@ -1,8 +1,7 @@
 (ns hello_world.core
   (:require [dommy.core :as dom :refer-macros [sel1]]
 			[clojure.string :refer [replace]])
-  (:import [goog.net XhrIo]
-           ))
+  (:import [goog.net XhrIo]))
 
 
 (def proxy-srv "http://localhost/php/results.php")
@@ -24,8 +23,7 @@
 	(doseq [rec @records]
 	  (dom/append! 
           (dom/sel1 :#results) 
-          (dom/set-text! (dom/create-element "li") (:name rec)))
-	  )))
+          (dom/set-text! (dom/create-element "li") (:name rec))))))
 
 
 (defn parse-row
@@ -33,8 +31,7 @@
     [html]
     (let [[name age death link] (map last (re-seq #"<td>(.*?)</td>" html))
           id (last (re-find #"id=(.*?)\"" link))]
-        {:name name :age age :death death :id id}
-        ))
+        {:name name :age age :death death :id id}))
 
 
 (defn parse-file
@@ -44,13 +41,14 @@
     (let [s (replace html #"[\r\n]" " ")
           table (first (re-find #"id=\"resultstable\">(.*?)</tab" s))
           rows (rest (map first (re-seq #"<tr>(.*?)</tr>" table)))]
-        (doall (mapv parse-row rows))
-        ))
+        (doall (mapv parse-row rows))))
 
 
 (declare fetch)
 
-(defn callback 
+(defn callback
+    "Handle response from server. Stores records found in memory,
+    triggers request for more records if required."
     [reply]
     (let [text (-> reply .-target .getResponseText)]
         (swap! records concat (parse-file text))
@@ -58,11 +56,12 @@
         (when @more-to-fetch
             (swap! start-index (partial + 15))
             (fetch))
-        (ui-update)
-        ))
+        (reset! more-to-fetch false) 
+        (ui-update)))
 
 
 (defn fetch
+    "Helper function, trigger request for records based on current state."
     []
     (.send goog.net.XhrIo (str proxy-srv "?start=" @start-index "&dataentered=" @query) callback))
 
@@ -77,4 +76,4 @@
 
 
 ; listeners
-(dom/listen! (dom/sel1 :body) :click on-search)
+(dom/listen! (dom/sel1 :form) :submit on-search)
