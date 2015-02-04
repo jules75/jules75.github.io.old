@@ -23,7 +23,11 @@
 	(doseq [rec @records]
 	  (dom/append! 
           (dom/sel1 :#results) 
-          (dom/set-text! (dom/create-element "li") (:name rec))))))
+          (->
+              (dom/create-element "li")
+              (dom/set-attr! :id (:id rec))
+              (dom/set-text! (:name rec))
+              )))))
 
 
 (defn parse-row
