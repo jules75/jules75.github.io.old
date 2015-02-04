@@ -10,6 +10,7 @@
 
 ; mutable state
 (def records (atom []))
+(def more-to-fetch (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
 
@@ -47,19 +48,31 @@
         ))
 
 
+(declare fetch)
+
 (defn callback 
     [reply]
     (let [text (-> reply .-target .getResponseText)]
-        (reset! records (parse-file text))
+        (swap! records concat (parse-file text))
+        (reset! more-to-fetch (boolean (re-find #"start=" text)))
+        (when @more-to-fetch
+            (swap! start-index (partial + 15))
+            (fetch))
         (ui-update)
         ))
+
+
+(defn fetch
+    []
+    (.send goog.net.XhrIo (str proxy-srv "?start=" @start-index "&dataentered=" @query) callback))
+
 
 (defn on-search
     [e]
     (reset! records [])
     (reset! start-index 0)
     (reset! query (-> :input dom/sel1 dom/value))
-    (.send goog.net.XhrIo (str proxy-srv "?start=" @start-index "&dataentered=" @query)  callback)
+    (fetch)
     (.preventDefault e))
 
 
