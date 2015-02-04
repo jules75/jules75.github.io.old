@@ -35,18 +35,13 @@
       (doseq [li (dom/sel :li)
               :let [id (dom/attr li :id)
                     rec (first (filter #(= id (:id %)) @records))
-                    f #(-> 
-                           (dom/create-element :p) 
-                           (dom/set-text! (get rec %))
-                           (dom/add-class! %)
-                           )
-                    [name age death] (map f [:name :age :death])]
-              ]
+                    f #(-> (dom/create-element :p) 
+                            (dom/set-text! (get rec %))
+                            (dom/add-class! %))]]
           (-> li
-              (dom/append! name)
-              (dom/append! age)
-              (dom/append! death))
-          )
+              (dom/append! (f :name))
+              (dom/append! (f :age))
+              (dom/append! (f :death))))
       
       ))
 
