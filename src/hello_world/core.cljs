@@ -6,19 +6,24 @@
 
 
 (def proxy-srv "http://localhost/php/results.php")
-(def results (atom []))
+
+
+; mutable state
+(def records (atom []))
+(def start-index (atom 0))
+(def query (atom nil))
 
 
 (defn ui-update
   "Update UI according to current state"
   []
-  (when (pos? (count @results))
-	(-> (dom/sel1 :h2) (dom/set-text! (str (count @results) " result(s) found")))
+  (when (pos? (count @records))
+	(-> (dom/sel1 :h2) (dom/set-text! (str (count @records) " result(s) found")))
 	(dom/clear! (dom/sel1 :#results))
-	(doseq [res @results]
+	(doseq [rec @records]
 	  (dom/append! 
           (dom/sel1 :#results) 
-          (dom/set-text! (dom/create-element "li") (:name res)))
+          (dom/set-text! (dom/create-element "li") (:name rec)))
 	  )))
 
 
@@ -45,16 +50,17 @@
 (defn callback 
     [reply]
     (let [text (-> reply .-target .getResponseText)]
-        ;(.log js/console (clj->js (parse-file text)))
-        (reset! results (parse-file text))
+        (reset! records (parse-file text))
         (ui-update)
         ))
 
 (defn on-search
-  [e]
-  (let [s (-> :input dom/sel1 dom/value)]
-      (.send goog.net.XhrIo proxy-srv callback "POST" (str "dataentered=" s))
-      (.preventDefault e)))
+    [e]
+    (reset! records [])
+    (reset! start-index 0)
+    (reset! query (-> :input dom/sel1 dom/value))
+    (.send goog.net.XhrIo (str proxy-srv "?start=" @start-index "&dataentered=" @query)  callback)
+    (.preventDefault e))
 
 
 ; listeners
