@@ -33,6 +33,15 @@ p#limit {
     opacity: 0.8;
 }
 
+div#details {
+    background-color: green;
+    position: fixed;
+    width: calc(100% - 40pt);
+    height: calc(100% - 40pt);
+    margin: 20pt;
+    opacity: 0.5;
+}
+
 ul#results {
     margin-top: 40pt;
 }

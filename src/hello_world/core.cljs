@@ -4,14 +4,27 @@
   (:import [goog.net XhrIo]))
 
 
-(def PROXY-SRV "http://localhost/php/results.php")
+(def PROXY-SRV "http://localhost/")
 (def MAX-RECORDS 150)
+
 
 ; mutable state
 (def records (atom []))
 (def keep-fetching? (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
+
+
+(defn parse-details
+    [html]
+    (let [s (replace html #"[\r\n]" " ")
+          location (last (re-find #"id=\"detailhead\">(.*?)</h1" s))
+          fullname (last (re-find #"id=\"fullname\">(.*?)</h2" s))
+          table (last (re-find #"id=\"loctable\">(.*?)</tab" s))
+          cells (map last (re-seq #"<td>(.*?)</td>" table))
+          [area1 area2 section1 section2 row grave] (take-nth 2 (rest cells))]
+        [location fullname area1 area2 section1 section2 row grave]
+        ))
 
 
 (defn ui-create-list-items
@@ -42,15 +55,11 @@
 (defn ui-update
     "Update UI according to current state"
     []
-
     (dom/toggle! (dom/sel1 :#limit) (= @start-index MAX-RECORDS))
-    
     (when (pos? (count @records))
         (dom/clear! (dom/sel1 :#results))
         (ui-create-list-items)
-        (ui-populate-list))
-    
-        )
+        (ui-populate-list)))
 
 
 (defn parse-row
@@ -71,9 +80,9 @@
         (doall (mapv parse-row rows))))
 
 
-(declare fetch)
+(declare fetch-records)
 
-(defn callback
+(defn search-callback
     "Handle response from server. Stores records found in memory,
     triggers request for more records if required."
     [reply]
@@ -82,15 +91,28 @@
         (swap! start-index + 15)
         (reset! keep-fetching? (boolean (re-find #"start=" text)))
         (when (and @keep-fetching? (< @start-index MAX-RECORDS))
-            (fetch))
+            (fetch-records))
         (reset! keep-fetching? false) 
         (ui-update)))
 
 
-(defn fetch
-    "Helper function, trigger request for records based on current state."
+(defn details-callback
+    [reply]
+    (let [text (-> reply .-target .getResponseText)]
+        (.log js/console text)
+        ))
+
+
+(defn fetch-records
+    "Helper function, request MULTIPLE records based on current state."
     []
-    (.send goog.net.XhrIo (str PROXY-SRV "?start=" @start-index "&dataentered=" @query) callback))
+    (.send goog.net.XhrIo (str PROXY-SRV "/php/results.php?start=" @start-index "&dataentered=" @query) search-callback))
+
+
+(defn fetch-details
+    "Helper function, request SINGLE record based on current state."
+    []
+    (.send goog.net.XhrIo (str PROXY-SRV "/php/details.php?id=130642") details-callback))
 
 
 (defn on-search
@@ -98,7 +120,7 @@
     (reset! records [])
     (reset! start-index 0)
     (reset! query (-> :input dom/sel1 dom/value))
-    (fetch)
+    (fetch-records)
     (.preventDefault e))
 
 
