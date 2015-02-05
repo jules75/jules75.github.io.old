@@ -2,7 +2,7 @@
     (:require [dommy.core :as dom :refer-macros [sel sel1]]))
 
 
-(defn- ui-render-details
+(defn- render-details
     [details]
     (-> (dom/sel1 :#details)
         (dom/set-text! (str details))
@@ -10,7 +10,7 @@
         ))
 
 
-(defn- ui-create-list-items
+(defn- create-list-items
     [records callback]
     (doseq [rec records]
         (dom/append! 
@@ -20,7 +20,7 @@
                     (dom/listen! :click callback)
                     ))))
 
-(defn- ui-populate-list
+(defn- populate-list
     [records]
     (doseq [li (dom/sel :li)
             :let [id (dom/attr li :id)
@@ -35,13 +35,13 @@
               (f about :about))))
 
 
-(defn ui-update
+(defn update
     "Update UI according to current state"
     [records record-details start-index max-index callback]
     (dom/toggle! (dom/sel1 :#limit) (= start-index max-index))
     (when (pos? (count records))
         (dom/clear! (dom/sel1 :#results))
-        (ui-create-list-items records callback)
-        (ui-populate-list records)
-        (ui-render-details record-details)))
+        (create-list-items records callback)
+        (populate-list records)
+        (render-details record-details)))
 

@@ -1,6 +1,6 @@
 (ns hello_world.core
   (:require [hello_world.parse :refer [parse-details parse-file]]
-            [hello_world.ui :refer [ui-update]]
+            [hello_world.ui :refer [update]]
             [dommy.core :as dom :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))
@@ -22,6 +22,12 @@
 (def query (atom nil))
 
 
+(defn ui-update
+    "Pass state to UI for update"
+    []
+    (update @records @record-details @start-index MAX-RECORDS on-select))
+
+
 (defn search-callback
     "Handle response from server. Stores records found in memory,
     triggers request for more records if required."
@@ -33,15 +39,14 @@
         (when (and @keep-fetching? (< @start-index MAX-RECORDS))
             (fetch-records))
         (reset! keep-fetching? false) 
-        (ui-update @records @record-details @start-index MAX-RECORDS on-select)))
-
+        (ui-update)))
 
 
 (defn details-callback
     [reply]
     (let [text (-> reply .-target .getResponseText)]
         (reset! record-details (parse-details text))
-        (ui-update @records  @record-details @start-index MAX-RECORDS on-select)))
+        (ui-update)))
 
 
 (defn fetch-records
@@ -78,4 +83,4 @@
 ; listeners
 (dom/listen! (dom/sel1 :form) :submit on-search)
 
-(ui-update @records @record-details @start-index MAX-RECORDS on-select)
+(ui-update)
