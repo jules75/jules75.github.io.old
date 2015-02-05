@@ -14,6 +14,7 @@
 ; mutable state
 (def records (atom []))
 (def record-id (atom nil))
+(def record-details (atom nil))
 (def keep-fetching? (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
@@ -55,7 +56,7 @@
     (doseq [li (dom/sel :li)
               :let [id (dom/attr li :id)
                     rec (first (filter #(= id (:id %)) @records))
-                    about (str "Died " (:death rec) " aged " (:age rec))
+                    about (str "Funeral on " (:death rec) " aged " (:age rec))
                     f #(dom/append! 
                            %1 (-> (dom/create-element :p)
                                   (dom/set-text! %2)
@@ -65,6 +66,14 @@
               (f about :about))))
 
 
+(defn ui-render-details
+    []
+    (-> (dom/sel1 :#details)
+        (dom/set-text! (str @record-details))
+        ;(dom/show!)
+        ))
+
+
 (defn ui-update
     "Update UI according to current state"
     []
@@ -72,7 +81,8 @@
     (when (pos? (count @records))
         (dom/clear! (dom/sel1 :#results))
         (ui-create-list-items)
-        (ui-populate-list)))
+        (ui-populate-list)
+        (ui-render-details)))
 
 
 (defn parse-row
@@ -110,8 +120,8 @@
 (defn details-callback
     [reply]
     (let [text (-> reply .-target .getResponseText)]
-        (.log js/console (clj->js (parse-details text)))
-        ))
+        (reset! record-details (parse-details text))
+        (ui-update)))
 
 
 (defn fetch-records

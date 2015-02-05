@@ -34,12 +34,15 @@ p#limit {
 }
 
 div#details {
-    background-color: green;
+    background-color: black;
+    color: white;
     position: fixed;
-    width: calc(100% - 40pt);
-    height: calc(100% - 40pt);
-    margin: 20pt;
-    opacity: 0.5;
+    right: 25%;
+    top: 25%;
+    width: 50%;
+    height: 50%;
+    opacity: 0.75;
+    padding: 5px;
 }
 
 ul#results {
