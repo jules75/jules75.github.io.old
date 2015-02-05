@@ -137,9 +137,12 @@
 
 (defn on-select
     [e]
-    (reset! record-id (-> e .-target .-id))
-    (fetch-details)
-    (.preventDefault e))
+    (let [id (if (= "LI" (-> e .-target .-tagName))
+                 (-> e .-target .-id)
+                 (-> e .-target .-parentElement .-id))]
+        (reset! record-id id)
+        (fetch-details)
+        (.preventDefault e)))
 
 
 ; listeners
