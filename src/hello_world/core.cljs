@@ -1,6 +1,7 @@
 (ns hello_world.core
   (:require [hello_world.parse :refer [parse-details parse-file]]
-      [dommy.core :as dom :refer-macros [sel sel1]]
+            [hello_world.ui :refer [ui-update]]
+            [dommy.core :as dom :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))
 
@@ -21,51 +22,6 @@
 (def query (atom nil))
 
 
-(defn ui-create-list-items
-    []
-    (doseq [rec @records]
-        (dom/append! 
-            (dom/sel1 :#results) 
-                (-> (dom/create-element "li")
-                    (dom/set-attr! :id (:id rec))
-                    (dom/listen! :click on-select)
-                    ))))
-
-
-(defn ui-populate-list
-    []
-    (doseq [li (dom/sel :li)
-              :let [id (dom/attr li :id)
-                    rec (first (filter #(= id (:id %)) @records))
-                    about (str "Funeral on " (:death rec) " aged " (:age rec))
-                    f #(dom/append! 
-                           %1 (-> (dom/create-element :p)
-                                  (dom/set-text! %2)
-                                  (dom/add-class! %3)))]]
-          (-> li
-              (f (:name rec) :name)
-              (f about :about))))
-
-
-(defn ui-render-details
-    []
-    (-> (dom/sel1 :#details)
-        (dom/set-text! (str @record-details))
-        ;(dom/show!)
-        ))
-
-
-(defn ui-update
-    "Update UI according to current state"
-    []
-    (dom/toggle! (dom/sel1 :#limit) (= @start-index MAX-RECORDS))
-    (when (pos? (count @records))
-        (dom/clear! (dom/sel1 :#results))
-        (ui-create-list-items)
-        (ui-populate-list)
-        (ui-render-details)))
-
-
 (defn search-callback
     "Handle response from server. Stores records found in memory,
     triggers request for more records if required."
@@ -77,7 +33,7 @@
         (when (and @keep-fetching? (< @start-index MAX-RECORDS))
             (fetch-records))
         (reset! keep-fetching? false) 
-        (ui-update)))
+        (ui-update @records @record-details @start-index MAX-RECORDS on-select)))
 
 
 
@@ -85,7 +41,7 @@
     [reply]
     (let [text (-> reply .-target .getResponseText)]
         (reset! record-details (parse-details text))
-        (ui-update)))
+        (ui-update @records  @record-details @start-index MAX-RECORDS on-select)))
 
 
 (defn fetch-records
@@ -122,4 +78,4 @@
 ; listeners
 (dom/listen! (dom/sel1 :form) :submit on-search)
 
-(ui-update)
+(ui-update @records @record-details @start-index MAX-RECORDS on-select)
