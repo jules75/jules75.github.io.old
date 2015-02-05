@@ -62,6 +62,10 @@ ul#results {
     margin-top: 40pt;
 }
 
+.disabled {
+    opacity: 0.25;   
+}
+
 li {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #bbb;

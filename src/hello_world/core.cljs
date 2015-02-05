@@ -1,7 +1,7 @@
 (ns hello_world.core
   (:require [hello_world.parse :refer [parse-details parse-file]]
             [hello_world.ui :refer [update]]
-            [dommy.core :as dom :refer-macros [sel sel1]]
+            [dommy.core :as d :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))
 
@@ -69,7 +69,7 @@
     [e]
     (reset! records [])
     (reset! start-index 0)
-    (reset! query (-> :input dom/sel1 dom/value))
+    (reset! query (-> :input d/sel1 d/value))
     (fetch-records)
     (.preventDefault e))
 
@@ -99,7 +99,7 @@
 
 
 ; create listeners
-(dom/listen! (dom/sel1 :form) :submit on-search)
+(d/listen! (d/sel1 :form) :submit on-search)
 
 
 ; request user position
