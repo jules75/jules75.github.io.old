@@ -7,9 +7,13 @@
 (def PROXY-SRV "http://localhost/")
 (def MAX-RECORDS 150)
 
+(declare fetch-records)
+(declare on-select)
+
 
 ; mutable state
 (def records (atom []))
+(def record-id (atom nil))
 (def keep-fetching? (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
@@ -42,6 +46,7 @@
             (dom/sel1 :#results) 
                 (-> (dom/create-element "li")
                     (dom/set-attr! :id (:id rec))
+                    (dom/listen! :click on-select)
                     ))))
 
 
@@ -88,8 +93,6 @@
         (doall (mapv parse-row rows))))
 
 
-(declare fetch-records)
-
 (defn search-callback
     "Handle response from server. Stores records found in memory,
     triggers request for more records if required."
@@ -107,7 +110,7 @@
 (defn details-callback
     [reply]
     (let [text (-> reply .-target .getResponseText)]
-        (.log js/console text)
+        (.log js/console (clj->js (parse-details text)))
         ))
 
 
@@ -120,7 +123,7 @@
 (defn fetch-details
     "Helper function, request SINGLE record based on current state."
     []
-    (.send goog.net.XhrIo (str PROXY-SRV "/php/details.php?id=130642") details-callback))
+    (.send goog.net.XhrIo (str PROXY-SRV "/php/details.php?id=" @record-id) details-callback))
 
 
 (defn on-search
@@ -129,6 +132,13 @@
     (reset! start-index 0)
     (reset! query (-> :input dom/sel1 dom/value))
     (fetch-records)
+    (.preventDefault e))
+
+
+(defn on-select
+    [e]
+    (reset! record-id (-> e .-target .-id))
+    (fetch-details)
     (.preventDefault e))
 
 
