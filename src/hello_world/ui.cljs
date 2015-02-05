@@ -4,10 +4,26 @@
 
 (defn- render-details
     [details]
-    (-> (dom/sel1 :#details)
-        (dom/set-text! (str details))
-        ;(dom/show!)
-        ))
+    (let [title (-> (dom/create-element "h3") (dom/set-text! (:fullname details)))
+          location (-> (dom/create-element "p") (dom/set-text! (:location details)))
+          area-text (str "AREA: " (:area1 details) " (" (:area2 details) ")")
+          section-text (str "SECTION: " (:section1 details) " (" (:section2 details) ")")
+          row-text (str "ROW: " (:row details))
+          grave-text (str "GRAVE: " (:grave details))
+          area (-> (dom/create-element "p") (dom/set-text! area-text))
+          section (-> (dom/create-element "p") (dom/set-text! section-text))
+          row (-> (dom/create-element "p") (dom/set-text! row-text))
+          grave (-> (dom/create-element "p") (dom/set-text! grave-text))
+          ]
+        (-> (dom/sel1 :#details)
+            dom/clear!
+            (dom/append! title)
+            (dom/append! location)
+            (dom/append! area)
+            (dom/append! section)
+            (dom/append! row)
+            (dom/append! grave)
+            )))
 
 
 (defn- create-list-items
