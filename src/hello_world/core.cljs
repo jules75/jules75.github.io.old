@@ -11,6 +11,7 @@
 
 (declare fetch-records)
 (declare on-select)
+(declare on-close)
 
 
 ; mutable state
@@ -20,12 +21,13 @@
 (def keep-fetching? (atom true))
 (def start-index (atom 0))
 (def query (atom nil))
+(def show-details? (atom false))
 
 
 (defn ui-update
     "Pass state to UI for update"
     []
-    (update @records @record-details @start-index MAX-RECORDS on-select))
+    (update @records @record-details @start-index MAX-RECORDS @show-details? on-select on-close))
 
 
 (defn search-callback
@@ -76,8 +78,16 @@
                  (-> e .-target .-id)
                  (-> e .-target .-parentElement .-id))]
         (reset! record-id id)
+        (reset! show-details? true)
         (fetch-details)
         (.preventDefault e)))
+
+
+(defn on-close
+    [e]
+    (reset! show-details? false)
+    (ui-update)
+    (.preventDefault e))
 
 
 ; listeners

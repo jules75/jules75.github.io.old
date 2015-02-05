@@ -45,6 +45,12 @@ div#details {
     padding: 5px;
 }
 
+button#close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 ul#results {
     margin-top: 40pt;
 }

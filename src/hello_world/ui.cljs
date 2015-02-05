@@ -3,7 +3,7 @@
 
 
 (defn- render-details
-    [details]
+    [details callback]
     (let [f #(-> (dom/create-element %1) (dom/set-text! %2))
           area-text     (str "AREA: " (:area1 details) " (" (:area2 details) ")")
           section-text  (str "SECTION: " (:section1 details) " (" (:section2 details) ")")   
@@ -13,6 +13,7 @@
           section       (f :p section-text)
           row           (f :p (str "ROW: " (:row details)))
           grave         (f :p (str "GRAVE: " (:grave details)))
+          close         (-> (f :button "Close") (dom/set-attr! :id "close") (dom/listen! :click callback))
           ]
         (-> (dom/sel1 :#details)
             dom/clear!
@@ -22,6 +23,7 @@
             (dom/append! section)
             (dom/append! row)
             (dom/append! grave)
+            (dom/append! close)
             )))
 
 
@@ -52,11 +54,12 @@
 
 (defn update
     "Update UI according to current state"
-    [records record-details start-index max-index callback]
+    [records record-details start-index max-index show-details? item-select-callback close-callback]
     (dom/toggle! (dom/sel1 :#limit) (= start-index max-index))
+    (dom/toggle! (dom/sel1 :#details) show-details?)
     (when (pos? (count records))
         (dom/clear! (dom/sel1 :#results))
-        (create-list-items records callback)
+        (create-list-items records item-select-callback)
         (populate-list records)
-        (render-details record-details)))
+        (render-details record-details close-callback)))
 
