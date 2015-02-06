@@ -1,7 +1,7 @@
-(ns hello_world.core
-  (:require [hello_world.parse :refer [parse-details parse-file]]
-            [hello_world.ui :refer [update]]
-            [hello_world.data :refer [areas]]
+(ns cemetery.core
+  (:require [cemetery.parse :refer [parse-details parse-file]]
+            [cemetery.ui :refer [update]]
+            [cemetery.data :refer [areas]]
             [dommy.core :as d :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))

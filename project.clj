@@ -1,4 +1,4 @@
-(defproject hello-world "0.1.0-SNAPSHOT"
+(defproject cemetery "0.1.0-SNAPSHOT"
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
 
@@ -11,10 +11,10 @@
   :source-paths ["src"]
 
   :cljsbuild {
-    :builds [{:id "hello-world"
+    :builds [{:id "cemetery"
               :source-paths ["src"]
               :compiler {
-                :output-to "hello_world.js"
+                :output-to "cemetery.js"
                 :output-dir "out"
                 :optimizations :none
                 :source-map true}}]})

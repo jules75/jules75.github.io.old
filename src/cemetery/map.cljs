@@ -1,4 +1,4 @@
-(ns hello_world.map
+(ns cemetery.map
     (:require [dommy.core :as d :refer-macros [sel sel1]])
     (:import [goog Uri]))
 

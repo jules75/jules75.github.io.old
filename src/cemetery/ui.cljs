@@ -1,4 +1,4 @@
-(ns hello_world.ui
+(ns cemetery.ui
     (:require [dommy.core :as d :refer-macros [sel sel1]]))
 
 (defn geo-link

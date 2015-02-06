@@ -1,0 +1,10 @@
+goog.addDependency("base.js", ['goog'], []);
+goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.object', 'goog.string.StringBuffer', 'goog.array']);
+goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer']);
+goog.addDependency("../dommy/core.js", ['dommy.core'], ['cljs.core', 'dommy.utils', 'clojure.string']);
+goog.addDependency("../cemetery/ui.js", ['cemetery.ui'], ['cljs.core', 'dommy.core']);
+goog.addDependency("../cemetery/data.js", ['cemetery.data'], ['cljs.core']);
+goog.addDependency("../cemetery/map.js", ['cemetery.map'], ['goog.Uri', 'cljs.core', 'dommy.core']);
+goog.addDependency("../cemetery/parse.js", ['cemetery.parse'], ['cljs.core', 'clojure.string']);
+goog.addDependency("../cemetery/core.js", ['cemetery.core'], ['cemetery.parse', 'cemetery.data', 'goog.net.XhrIo', 'cljs.core', 'dommy.core', 'clojure.string', 'cemetery.ui']);

@@ -1,4 +1,4 @@
-(ns hello_world.data)
+(ns cemetery.data)
 
 
 (def areas [

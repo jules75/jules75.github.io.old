@@ -1,4 +1,4 @@
-(ns hello_world.parse
+(ns cemetery.parse
     (:require [clojure.string :refer [replace]]))
 
 
