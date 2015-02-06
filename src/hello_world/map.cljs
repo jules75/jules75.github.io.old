@@ -4,12 +4,14 @@
 
 
 (def gmap (atom nil))
+(def gmarkers (atom []))
 
 
 (defn- add-marker
     [lat lng]
     (let [opts {:position (google.maps.LatLng. lat lng)}
           marker (google.maps.Marker. (clj->js opts))]
+        (swap! gmarkers conj marker)
         (.setMap marker @gmap)))
 
 
@@ -29,11 +31,24 @@
         (map #(double (.getParameterValue uri %)) ["lat" "lng"])))
 
 
-(defn on-get-pos
+(defn- bounds
+    "Return LatLngBounds object that neatly contains markers."
+    [markers]
+    (loop [bounds (google.maps.LatLngBounds.)
+           m markers]
+        (if (seq m)
+            (recur 
+                (.extend bounds (.getPosition (first m)))
+                (rest m))
+            bounds)))
+
+
+(defn- on-get-pos
     [pos]
     (add-marker
         (-> pos .-coords .-latitude)
-        (-> pos .-coords .-longitude)))
+        (-> pos .-coords .-longitude))
+    (.fitBounds @gmap (bounds @gmarkers)))
 
 
 ; initialise
