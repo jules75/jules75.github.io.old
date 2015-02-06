@@ -6,33 +6,32 @@
 (def gmap (atom nil))
 
 
-(defn add-marker
+(defn- add-marker
     [lat lng]
-    (let [pos (google.maps.LatLng. lat lng)
-          opts {:position pos :title "test"}
+    (let [opts {:position (google.maps.LatLng. lat lng)}
           marker (google.maps.Marker. (clj->js opts))]
-        (.setMap marker @gmap)
-        ))
+        (.setMap marker @gmap)))
 
 
-(defn init-map
-    []
-    (let [pos {:lat -37.55 :lng 143.8}
-          opts {:center pos :zoom 12 :mapTypeId google.maps.MapTypeId.SATELLITE}
+(defn- init-map
+    [lat lng]
+    (let [opts {:center (google.maps.LatLng. lat lng)
+                :zoom 18 
+                :mapTypeId google.maps.MapTypeId.SATELLITE}
           canvas (d/sel1 :#map)
           gm (google.maps.Map. (d/sel1 :#map) (clj->js opts))]
-        (reset! gmap gm)
-        ))
+        (reset! gmap gm)))
 
 
-(defn init-marker
+(defn- get-uri-pos
+    "Returns [lat lng] values taken from current URI."
     []
-    (let [url (-> js/document .-location .-href)
-          guri (goog.Uri. url)
-          [lat lng] (map #(.getParameterValue guri %) ["lat" "lng"])]
-        (add-marker lat lng)))
+    (let [uri (goog.Uri. (-> js/document .-location .-href))]
+        (map #(double (.getParameterValue uri %)) ["lat" "lng"])))
 
 
-(init-map)
-(init-marker)
+; initialise
+(let [[lat lng] (get-uri-pos)]
+    (init-map lat lng)
+    (add-marker lat lng))
 
