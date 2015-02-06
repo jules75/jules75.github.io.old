@@ -1,6 +1,7 @@
 (ns hello_world.core
   (:require [hello_world.parse :refer [parse-details parse-file]]
             [hello_world.ui :refer [update]]
+            [hello_world.data :refer [areas]]
             [dommy.core :as d :refer-macros [sel sel1]]
 			[clojure.string :refer [replace]])
   (:import [goog.net XhrIo]))
@@ -48,8 +49,13 @@
 
 (defn details-callback
     [reply]
-    (let [text (-> reply .-target .getResponseText)]
-        (reset! record-details (parse-details text))
+    (let [text (-> reply .-target .getResponseText)
+          details (parse-details text)
+          area {:id "BN" :lat -37.7 :lng 143.3}
+          area (first (filter #(= (:area1 details) (:id %)) areas))]
+        (reset! record-details details)
+        (swap! record-details assoc :lat (:lat area))
+        (swap! record-details assoc :lng (:lng area))
         (ui-update)))
 
 

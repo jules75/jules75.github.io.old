@@ -13,6 +13,7 @@
           section       (f :p section-text)
           row           (f :p (str "ROW: " (:row details)))
           grave         (f :p (str "GRAVE: " (:grave details)))
+          geo           (f :p (str "POS (approx): " (:lat details) ", " (:lng details)))
           close         (-> (f :button "Close") (d/set-attr! :id "close") (d/listen! :click callback))
           ]
         (-> (d/sel1 :#details)
@@ -23,6 +24,7 @@
             (d/append! section)
             (d/append! row)
             (d/append! grave)
+            (d/append! geo)
             (d/append! close)
             )))
 
