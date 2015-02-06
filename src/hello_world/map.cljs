@@ -1,5 +1,6 @@
 (ns hello_world.map
-    (:require [dommy.core :as d :refer-macros [sel sel1]]))
+    (:require [dommy.core :as d :refer-macros [sel sel1]])
+    (:import [goog Uri]))
 
 
 (def gmap (atom nil))
@@ -14,7 +15,7 @@
         ))
 
 
-(defn init
+(defn init-map
     []
     (let [pos {:lat -37.55 :lng 143.8}
           opts {:center pos :zoom 12 :mapTypeId google.maps.MapTypeId.SATELLITE}
@@ -24,6 +25,14 @@
         ))
 
 
-(init)
+(defn init-marker
+    []
+    (let [url (-> js/document .-location .-href)
+          guri (goog.Uri. url)
+          [lat lng] (map #(.getParameterValue guri %) ["lat" "lng"])]
+        (add-marker lat lng)))
 
-;(add-marker -37.55, 143.8)
+
+(init-map)
+(init-marker)
+
