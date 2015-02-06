@@ -2,16 +2,28 @@
     (:require [dommy.core :as d :refer-macros [sel sel1]]))
 
 
-(defn init
-    []
-    (let [opts {:center {:lat -37.5 :lng 143.5}, :zoom 8}
-          canvas (d/sel1 :#map)
-          gmap (google.maps.Map. (d/sel1 :#map) (clj->js opts))
-          ]
-        (.log js/console  (clj->js gmap))
+(def gmap (atom nil))
+
+
+(defn add-marker
+    [lat lng]
+    (let [pos (google.maps.LatLng. lat lng)
+          opts {:position pos :title "test"}
+          marker (google.maps.Marker. (clj->js opts))]
+        (.setMap marker @gmap)
         ))
 
 
-(init)      
+(defn init
+    []
+    (let [pos {:lat -37.55 :lng 143.8}
+          opts {:center pos :zoom 12 :mapTypeId google.maps.MapTypeId.SATELLITE}
+          canvas (d/sel1 :#map)
+          gm (google.maps.Map. (d/sel1 :#map) (clj->js opts))]
+        (reset! gmap gm)
+        ))
 
 
+(init)
+
+;(add-marker -37.55, 143.8)
