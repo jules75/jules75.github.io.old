@@ -50,6 +50,9 @@ div#details {
     height: 80%;
     padding: 15px;
 }
+    div#details a {
+        color: white;
+    }
 
 button#close {
     position: absolute;

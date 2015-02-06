@@ -1,6 +1,13 @@
 (ns hello_world.ui
     (:require [dommy.core :as d :refer-macros [sel sel1]]))
 
+(defn geo-link
+    [lat lng]
+    (-> (d/create-element :a) 
+        (d/set-text! "View position on map (approx.)")
+        (d/set-attr! :href (str "map.html?lat=" lat "&lng=" lng))
+        ))
+
 
 (defn- render-details
     [details callback]
@@ -25,6 +32,7 @@
             (d/append! row)
             (d/append! grave)
             (d/append! geo)
+            (d/append! (geo-link (:lat details) (:lng details)))
             (d/append! close)
             )))
 
