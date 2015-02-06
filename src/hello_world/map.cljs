@@ -18,7 +18,6 @@
     (let [opts {:center (google.maps.LatLng. lat lng)
                 :zoom 18 
                 :mapTypeId google.maps.MapTypeId.SATELLITE}
-          canvas (d/sel1 :#map)
           gm (google.maps.Map. (d/sel1 :#map) (clj->js opts))]
         (reset! gmap gm)))
 
@@ -30,8 +29,16 @@
         (map #(double (.getParameterValue uri %)) ["lat" "lng"])))
 
 
+(defn on-get-pos
+    [pos]
+    (add-marker
+        (-> pos .-coords .-latitude)
+        (-> pos .-coords .-longitude)))
+
+
 ; initialise
 (let [[lat lng] (get-uri-pos)]
+    (.getCurrentPosition navigator.geolocation on-get-pos)
     (init-map lat lng)
     (add-marker lat lng))
 

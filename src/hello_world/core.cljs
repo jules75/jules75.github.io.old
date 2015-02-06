@@ -23,8 +23,6 @@
 (def start-index (atom 0))
 (def query (atom nil))
 (def show-details? (atom false))
-(def user-lat (atom 0))
-(def user-lng (atom 0))
 
 
 (defn ui-update
@@ -98,18 +96,8 @@
     (.preventDefault e))
 
 
-(defn on-get-pos
-    [pos]
-    (reset! user-lat (-> pos .-coords .-latitude))
-    (reset! user-lng (-> pos .-coords .-longitude)))
-
-
 ; create listeners
 (d/listen! (d/sel1 :form) :submit on-search)
-
-
-; request user position
-(.getCurrentPosition navigator.geolocation on-get-pos)
 
 
 (ui-update)
