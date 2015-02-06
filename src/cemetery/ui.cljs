@@ -4,7 +4,7 @@
 (defn geo-link
     [lat lng]
     (-> (d/create-element :a) 
-        (d/set-text! "View position on map (approx.)")
+        (d/set-text! "View on map (approx.)")
         (d/set-attr! :href (str "map.html?lat=" lat "&lng=" lng))
         ))
 
@@ -20,7 +20,6 @@
           section       (f :p section-text)
           row           (f :p (str "ROW: " (:row details)))
           grave         (f :p (str "GRAVE: " (:grave details)))
-          geo           (f :p (str "POS (approx): " (:lat details) ", " (:lng details)))
           close         (-> (f :button "Close") (d/set-attr! :id "close") (d/listen! :click callback))
           ]
         (-> (d/sel1 :#details)
@@ -31,7 +30,6 @@
             (d/append! section)
             (d/append! row)
             (d/append! grave)
-            (d/append! geo)
             (d/append! (geo-link (:lat details) (:lng details)))
             (d/append! close)
             )))

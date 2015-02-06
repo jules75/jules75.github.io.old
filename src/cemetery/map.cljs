@@ -20,7 +20,7 @@
     [lat lng]
     (let [opts {:center (google.maps.LatLng. lat lng)
                 :zoom 18 
-                :mapTypeId google.maps.MapTypeId.SATELLITE}
+                :mapTypeId google.maps.MapTypeId.HYBRID}
           gm (google.maps.Map. (d/sel1 :#map) (clj->js opts))]
         (reset! gmap gm)))
 
@@ -58,5 +58,5 @@
 (let [[lat lng] (get-uri-pos)]
     (.getCurrentPosition navigator.geolocation on-get-pos)
     (init-map lat lng)
-    (add-marker lat lng "img/marker.svg" "Destination"))
+    (add-marker lat lng "img/marker.svg" "Your destination"))
 
