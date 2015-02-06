@@ -7,7 +7,7 @@
   (:import [goog.net XhrIo]))
 
 
-(def PROXY-SRV "http://localhost/")
+(def PROXY-SRV "http://10.0.0.97/")
 (def MAX-RECORDS 150)
 
 (declare fetch-records)

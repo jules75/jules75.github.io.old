@@ -8,10 +8,11 @@
 
 
 (defn- add-marker
-    [lat lng icon]
+    [lat lng icon title]
     (let [opts {:position (google.maps.LatLng. lat lng) :icon icon}
           marker (google.maps.Marker. (clj->js opts))]
         (swap! gmarkers conj marker)
+        (google.maps.event.addListener. marker "click" #(js/alert title))
         (.setMap marker @gmap)))
 
 
@@ -48,7 +49,8 @@
     (add-marker
         (-> pos .-coords .-latitude)
         (-> pos .-coords .-longitude)
-        "img/userpos.svg")
+        "img/userpos.svg"
+        "Your position")
     (.fitBounds @gmap (bounds @gmarkers)))
 
 
@@ -56,5 +58,5 @@
 (let [[lat lng] (get-uri-pos)]
     (.getCurrentPosition navigator.geolocation on-get-pos)
     (init-map lat lng)
-    (add-marker lat lng "img/marker.svg"))
+    (add-marker lat lng "img/marker.svg" "Destination"))
 
