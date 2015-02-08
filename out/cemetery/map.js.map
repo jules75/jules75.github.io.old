@@ -1,0 +1,19 @@
+{"version":3,
+ "file":"/D:/Projects/jules75.github.io/out/cemetery/map.js",
+ "sources":["map.cljs"],
+ "lineCount":51,
+ "mappings":
+ ";AAAA;;;;;AAKA,AAAKA,oBAAK,yBAAA,zBAACC;AACX,AAAKC,wBAAS,yBAAA,zBAACD;AAGf,0BAAA,yCAAA,nEAAOE,+CACFC,IAAIC,IAAIC,KAAKC,OACd,WAAA,2CAAA,gGAAA,8IAAA,hSAAMC,gHAAgB,KAAAC,mBAAqBL,IAAIC,2DAAWC,iBACpDI,SAAO,KAAAC,mBAAqB,AAACC,+BAAQJ,QACvC,AAACK,+BAAMX,sBAASY,eAAKJ;AACrB,KAAAK,qCAAA,QAAA,fAAgCL;oBAAhC,AAAgD,OAACM,MAAST;;;AAC1D,qBAAA,AAAAU,dAASP,wCAAQV;;AAGzB,wBAAA,4BAAA,pDAAOkB,2CACFd,IAAIC,KACL,WAAA,2CAAA,2FAAA,sDAAA,KAAA,wMAAA,hZAAMG,2GAAc,KAAAC,mBAAqBL,IAAIC,gIAEtBc,yCACjBC,KAAG,KAAAC,gBAAkB,AAAAC,wBAAA,OAAe,AAACV,+BAAQJ,QAC/C,OAACe,gCAAOvB,kBAAKoB;;AAGrB;;;2BAAA,wBAAA,nDAAOI,mDAGH,iDAAA,7CAAMC,MAAI,KAAAC,SAAW,AAAA,AAAIC,yBACrB,+BAAA,xBAACE;kBAADD,iBAAA,AAAc,6BAAAA,tBAAoBH;;CAAlC,mFAAA,MAAA;;AAGR;;;sBAAA,0BAAA,hDAAOK,uCAEFC,SACD,IAAOC,aAAO,KAAAC,gCACPC,IAAEH;AADT,AAEI,GAAI,AAACI,wBAAID;CACL;cACI,AAASF,kBAAO,AAAc,AAACI,0BAAMF;cACrC,AAACG,yBAAKH;;;;;;CACVF;;;;;AAGZ,0BAAA,0BAAA,pDAAOM,+CACFC,KACD,2EAAA,kBAAA,7FAACpC,kCACG,AAAA,AAAIoC,oBACJ,AAAA,AAAIA;AAGR,OAAA,AAAAtB,0BAAajB,6BAAK,8BAAA,AAAAiB,9BAACa,wDAAQ5B;;AAI/B,IAAAsC,oEAAA,AAAAC,wBAAAD,eAAA,IAAA,qBAAA,AAAAC,wBAAAD,eAAA,IAAA,MAAA,5HAAOpC,gEAAIC,xGAAK,AAACmB,oKACb,AAAqBkB,yCAAsBJ;AAC3C,AAACpB,gCAASd,SAAIC;AACd,oDAAA,iBAAA,rEAACF,kCAAWC,SAAIC",
+ "names":
+ ["cemetery.map/gmap", "cljs.core/atom", "cemetery.map/gmarkers",
+  "cemetery.map/add-marker", "lat", "lng", "icon", "title", "opts",
+  "google/maps.LatLng", "marker", "google/maps.Marker",
+  "cljs.core/clj->js", "cljs.core/swap!", "cljs.core/conj",
+  "google/maps.event.addListener", "js/alert", "cljs.core/deref",
+  "cemetery.map/init-map", "google/maps.MapTypeId.HYBRID", "gm",
+  "google/maps.Map", "js/document.getElementById", "cljs.core/reset!",
+  "cemetery.map/get-uri-pos", "uri", "goog/Uri", "js/document",
+  "p1__5792#", "cljs.core/map", "cemetery.map/bounds", "markers",
+  "bounds", "google/maps.LatLngBounds", "m", "cljs.core/seq",
+  "cljs.core/first", "cljs.core/rest", "cemetery.map/on-get-pos",
+  "pos", "vec__5795", "cljs.core/nth", "navigator/geolocation"]}
