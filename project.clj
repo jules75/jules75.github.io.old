@@ -15,6 +15,7 @@
               :source-paths ["src"]
               :compiler {
                 :output-to "cemetery.js"
-                :output-dir "out"
-                :optimizations :none
-                :source-map true}}]})
+                ;:output-dir "out"
+                :optimizations :advanced
+                ;:source-map true
+                            }}]})
