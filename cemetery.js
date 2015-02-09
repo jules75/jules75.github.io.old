@@ -7192,7 +7192,7 @@ var Hg = function() {
   return a;
 }();
 function Ig(a, b) {
-  return wg.c(ug(Ag.b(gg), "View on map (approx.)"), fg, "map.html?lat\x3d" + A.b(a) + "\x26lng\x3d" + A.b(b));
+  return wg.c(ug(Ag.b(gg), "View on map (approx.)"), fg, "http://maps.google.com?q\x3d" + A.b(a) + "," + A.b(b));
 }
 function Jg(a, b) {
   function c(a, b) {

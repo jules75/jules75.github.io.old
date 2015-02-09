@@ -5,7 +5,8 @@
     [lat lng]
     (-> (d/create-element :a) 
         (d/set-text! "View on map (approx.)")
-        (d/set-attr! :href (str "map.html?lat=" lat "&lng=" lng))
+        ;(d/set-attr! :href (str "map.html?lat=" lat "&lng=" lng))
+        (d/set-attr! :href (str "http://maps.google.com?q=" lat "," lng))
         ))
 
 
