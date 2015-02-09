@@ -28,7 +28,7 @@
 (defn ui-update
     "Pass state to UI for update"
     []
-    (update @records @record-details @start-index MAX-RECORDS @show-details? on-select on-close))
+    (update @records @record-details @record-id @start-index MAX-RECORDS @show-details? on-select on-close))
 
 
 (defn search-callback
@@ -80,9 +80,9 @@
 
 (defn on-select
     [e]
-    (let [id (if (= "LI" (-> e .-target .-tagName))
+    (let [id (apply str (rest (if (= "LI" (-> e .-target .-tagName))
                  (-> e .-target .-id)
-                 (-> e .-target .-parentElement .-id))]
+                 (-> e .-target .-parentElement .-id))))]
         (reset! record-id id)
         (reset! show-details? true)
         (fetch-details)
