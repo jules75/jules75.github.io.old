@@ -11,22 +11,20 @@
 
 
 (defn- render-details
-    [details id callback]
+    [details id]
     (let [f #(-> (d/create-element %1) (d/set-text! %2))
-          area-text     (str "AREA: " (:area1 details) " (" (:area2 details) ")")
-          section-text  (str "SECTION: " (:section1 details) " (" (:section2 details) ")")   
+          area-text     (str "Area: " (:area1 details) " (" (:area2 details) ")")
+          section-text  (str "Section: " (:section1 details) " (" (:section2 details) ")")   
           location      (f :p (:location details))
           area          (f :p area-text)
           section       (f :p section-text)
-          row           (f :p (str "ROW: " (:row details)))
-          grave         (f :p (str "GRAVE: " (:grave details)))
+          rowgrave      (f :p (str "Row " (:row details) ", grave " (:grave details)))
           ]
         (-> (d/sel1 [(str "#i" id) :div])
             (d/append! location)
             (d/append! area)
             (d/append! section)
-            (d/append! row)
-            (d/append! grave)
+            (d/append! rowgrave)
             (d/append! (geo-link (:lat details) (:lng details)))
             )))
 
@@ -64,18 +62,12 @@
      record-details 
      record-id
      start-index 
-     max-index 
-     show-details? 
-     item-select-callback 
-     close-callback]
-    ;(let [f (if show-details? d/add-class! d/remove-class!)]
-        (d/toggle! (d/sel1 :#limit) (= start-index max-index))
-        ;(d/toggle! (d/sel1 :#details) show-details?)
-        ;(f (d/sel1 :#results) :disabled)
-        ;(f (d/sel1 :nav) :disabled)
-        (when (pos? (count records))
-            (d/clear! (d/sel1 :#results))
-            (create-list-items records item-select-callback)
-            (populate-list records)
-            (render-details record-details record-id close-callback)))
+     max-index
+     item-select-callback]
+    (d/toggle! (d/sel1 :#limit) (= start-index max-index))
+    (when (pos? (count records))
+        (d/clear! (d/sel1 :#results))
+        (create-list-items records item-select-callback)
+        (populate-list records)
+        (render-details record-details record-id)))
 

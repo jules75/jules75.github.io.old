@@ -20,11 +20,10 @@ cemetery.core.record_details = cljs.core.atom.call(null,null);
 cemetery.core.keep_fetching_QMARK_ = cljs.core.atom.call(null,true);
 cemetery.core.start_index = cljs.core.atom.call(null,(0));
 cemetery.core.query = cljs.core.atom.call(null,null);
-cemetery.core.show_details_QMARK_ = cljs.core.atom.call(null,false);
 /**
 * Pass state to UI for update
 */
-cemetery.core.ui_update = (function ui_update(){return cemetery.ui.update.call(null,cljs.core.deref.call(null,cemetery.core.records),cljs.core.deref.call(null,cemetery.core.record_details),cljs.core.deref.call(null,cemetery.core.record_id),cljs.core.deref.call(null,cemetery.core.start_index),cemetery.core.MAX_RECORDS,cljs.core.deref.call(null,cemetery.core.show_details_QMARK_),cemetery.core.on_select,cemetery.core.on_close);
+cemetery.core.ui_update = (function ui_update(){return cemetery.ui.update.call(null,cljs.core.deref.call(null,cemetery.core.records),cljs.core.deref.call(null,cemetery.core.record_details),cljs.core.deref.call(null,cemetery.core.record_id),cljs.core.deref.call(null,cemetery.core.start_index),cemetery.core.MAX_RECORDS,cemetery.core.on_select);
 });
 /**
 * Handle response from server. Stores records found in memory,
@@ -46,7 +45,7 @@ cljs.core.reset_BANG_.call(null,cemetery.core.keep_fetching_QMARK_,false);
 return cemetery.core.ui_update.call(null);
 });
 cemetery.core.details_callback = (function details_callback(reply){var text = reply.target.getResponseText();var details = cemetery.parse.parse_details.call(null,text);var area = new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"id","id",-1388402092),"BN",new cljs.core.Keyword(null,"lat","lat",-580793929),-37.7,new cljs.core.Keyword(null,"lng","lng",1667213918),143.3], null);var area__$1 = cljs.core.first.call(null,cljs.core.filter.call(null,((function (text,details,area){
-return (function (p1__7433_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"area1","area1",-316994623).cljs$core$IFn$_invoke$arity$1(details),new cljs.core.Keyword(null,"id","id",-1388402092).cljs$core$IFn$_invoke$arity$1(p1__7433_SHARP_));
+return (function (p1__6067_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"area1","area1",-316994623).cljs$core$IFn$_invoke$arity$1(details),new cljs.core.Keyword(null,"id","id",-1388402092).cljs$core$IFn$_invoke$arity$1(p1__6067_SHARP_));
 });})(text,details,area))
 ,cemetery.data.areas));cljs.core.reset_BANG_.call(null,cemetery.core.record_details,details);
 cljs.core.swap_BANG_.call(null,cemetery.core.record_details,cljs.core.assoc,new cljs.core.Keyword(null,"lat","lat",-580793929),new cljs.core.Keyword(null,"lat","lat",-580793929).cljs$core$IFn$_invoke$arity$1(area__$1));
@@ -70,12 +69,7 @@ cemetery.core.fetch_records.call(null);
 return e.preventDefault();
 });
 cemetery.core.on_select = (function on_select(e){var id = cljs.core.apply.call(null,cljs.core.str,cljs.core.rest.call(null,((cljs.core._EQ_.call(null,"LI",e.target.tagName))?e.target.id:e.target.parentElement.id)));cljs.core.reset_BANG_.call(null,cemetery.core.record_id,id);
-cljs.core.reset_BANG_.call(null,cemetery.core.show_details_QMARK_,true);
 cemetery.core.fetch_details.call(null);
-return e.preventDefault();
-});
-cemetery.core.on_close = (function on_close(e){cljs.core.reset_BANG_.call(null,cemetery.core.show_details_QMARK_,false);
-cemetery.core.ui_update.call(null);
 return e.preventDefault();
 });
 dommy.core.listen_BANG_.call(null,(dommy.utils.__GT_Array.call(null,document.getElementsByTagName("form"))[(0)]),new cljs.core.Keyword(null,"submit","submit",-49315317),cemetery.core.on_search);

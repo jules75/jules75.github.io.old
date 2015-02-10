@@ -40,20 +40,6 @@ p#limit {
     opacity: 0.8;
 }
 
-div#details {
-    background-color: #444;
-    color: white;
-    position: fixed;
-    right: 10%;
-    top: 10%;
-    width: 80%;
-    height: 80%;
-    padding: 15px;
-}
-    div#details a {
-        color: white;
-    }
-
 button#close {
     position: absolute;
     top: 15px;
@@ -61,26 +47,32 @@ button#close {
     padding: 10px;
 }
 
-ul#results {
-    margin-top: 40pt;
-}
-
 .disabled {
     opacity: 0.25;   
 }
 
-li {
+#results {
+    margin-top: 40pt;
+}
+
+#results li {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #bbb;
     background-color: #eee;
-    padding: 5px;
     overflow: auto;
 }
-    li .name {
+    #results p {
+        margin: 8pt 5px;
+    }
+    #results li .name {
         font-weight: bold;
     }
-    li div {
+    #results li div {
         float: right;
-        border: 1px solid red;
+        background-color: #777;
+        color: white;
+    }
+    #results li div a {
+        color: white;
     }
 
