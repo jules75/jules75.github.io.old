@@ -48,7 +48,6 @@
     [reply]
     (let [text (-> reply .-target .getResponseText)
           details (parse-details text)
-          area {:id "BN" :lat -37.7 :lng 143.3}
           area (first (filter #(= (:area1 details) (:id %)) areas))]
         (reset! record-details details)
         (swap! record-details assoc :lat (:lat area))
@@ -81,10 +80,11 @@
     [e]
     (let [id (apply str (rest (if (= "LI" (-> e .-target .-tagName))
                  (-> e .-target .-id)
-                 (-> e .-target .-parentElement .-id))))]
+                 (-> e .-target .-parentElement .-id))))
+          prevent? (= "LI" (-> e .-target .-tagName))]
         (reset! record-id id)
         (fetch-details)
-        (.preventDefault e)))
+        (when prevent? (.preventDefault e))))
 
 
 ; create listeners

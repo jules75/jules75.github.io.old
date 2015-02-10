@@ -17675,7 +17675,7 @@ dommy.core.listen_once_BANG_ = function() {
 }();
 var cemetery = {ui:{}};
 cemetery.ui.geo_link = function(a, b) {
-  return dommy.core.set_attr_BANG_.call(null, dommy.core.set_text_BANG_.call(null, dommy.core.create_element.call(null, new cljs.core.Keyword(null, "a", "a", -2123407586)), "View on map (approx.)"), new cljs.core.Keyword(null, "href", "href", -793805698), "http://maps.google.com?q\x3d" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(a) + "," + cljs.core.str.cljs$core$IFn$_invoke$arity$1(b));
+  return dommy.core.set_attr_BANG_.call(null, dommy.core.set_text_BANG_.call(null, dommy.core.create_element.call(null, new cljs.core.Keyword(null, "a", "a", -2123407586)), "View section location on map"), new cljs.core.Keyword(null, "href", "href", -793805698), "http://maps.google.com?q\x3d" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(a) + "," + cljs.core.str.cljs$core$IFn$_invoke$arity$1(b));
 };
 cemetery.ui.render_details = function(a, b) {
   var c = function(a, b) {
@@ -21132,11 +21132,11 @@ cemetery.core.search_callback = function(a) {
 cemetery.core.details_callback = function(a) {
   var b = a.target.getResponseText();
   a = cemetery.parse.parse_details.call(null, b);
-  var c = new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "id", "id", -1388402092), "BN", new cljs.core.Keyword(null, "lat", "lat", -580793929), -37.7, new cljs.core.Keyword(null, "lng", "lng", 1667213918), 143.3], null), b = cljs.core.first.call(null, cljs.core.filter.call(null, function(a, b, c) {
+  b = cljs.core.first.call(null, cljs.core.filter.call(null, function(a, b) {
     return function(a) {
       return cljs.core._EQ_.call(null, (new cljs.core.Keyword(null, "area1", "area1", -316994623)).cljs$core$IFn$_invoke$arity$1(b), (new cljs.core.Keyword(null, "id", "id", -1388402092)).cljs$core$IFn$_invoke$arity$1(a));
     };
-  }(b, a, c), cemetery.data.areas));
+  }(b, a), cemetery.data.areas));
   cljs.core.reset_BANG_.call(null, cemetery.core.record_details, a);
   cljs.core.swap_BANG_.call(null, cemetery.core.record_details, cljs.core.assoc, new cljs.core.Keyword(null, "lat", "lat", -580793929), (new cljs.core.Keyword(null, "lat", "lat", -580793929)).cljs$core$IFn$_invoke$arity$1(b));
   cljs.core.swap_BANG_.call(null, cemetery.core.record_details, cljs.core.assoc, new cljs.core.Keyword(null, "lng", "lng", 1667213918), (new cljs.core.Keyword(null, "lng", "lng", 1667213918)).cljs$core$IFn$_invoke$arity$1(b));
@@ -21156,10 +21156,10 @@ cemetery.core.on_search = function(a) {
   return a.preventDefault();
 };
 cemetery.core.on_select = function(a) {
-  var b = cljs.core.apply.call(null, cljs.core.str, cljs.core.rest.call(null, cljs.core._EQ_.call(null, "LI", a.target.tagName) ? a.target.id : a.target.parentElement.id));
+  var b = cljs.core.apply.call(null, cljs.core.str, cljs.core.rest.call(null, cljs.core._EQ_.call(null, "LI", a.target.tagName) ? a.target.id : a.target.parentElement.id)), c = cljs.core._EQ_.call(null, "LI", a.target.tagName);
   cljs.core.reset_BANG_.call(null, cemetery.core.record_id, b);
   cemetery.core.fetch_details.call(null);
-  return a.preventDefault();
+  return c ? a.preventDefault() : null;
 };
 dommy.core.listen_BANG_.call(null, dommy.utils.__GT_Array.call(null, document.getElementsByTagName("form"))[0], new cljs.core.Keyword(null, "submit", "submit", -49315317), cemetery.core.on_search);
 cemetery.core.ui_update.call(null);
