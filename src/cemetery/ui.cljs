@@ -2,11 +2,13 @@
     (:require [dommy.core :as d :refer-macros [sel sel1]]))
 
 (defn geo-link
+    "Return link to map given lat/lng as strings."
     [lat lng]
-    (-> (d/create-element :a) 
-        (d/set-text! "View section location on map")
-        (d/set-attr! :href (str "http://maps.google.com?q=" lat "," lng))
-        ))
+    (when (not= nil lat)
+        (-> (d/create-element :a) 
+            (d/set-text! "View section location on map")
+            (d/set-attr! :href (str "http://maps.google.com?q=" lat "," lng))
+            )))
 
 
 (defn- render-details
@@ -45,7 +47,7 @@
     (doseq [li (d/sel :li)
             :let [id (apply str (rest (d/attr li :id)))
                   rec (first (filter #(= id (:id %)) records))
-                  about (str "Funeral on " (:death rec) " aged " (:age rec))
+                  about (str "Funeral on " (:death rec) ", aged " (:age rec))
                   f #(d/append! 
                          %1 (-> (d/create-element :p)
                                 (d/set-text! %2)
