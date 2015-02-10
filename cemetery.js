@@ -17685,19 +17685,20 @@ cemetery.ui.render_details = function(a, b, c) {
   c = d.call(null, new cljs.core.Keyword(null, "p", "p", 151049309), (new cljs.core.Keyword(null, "location", "location", 1815599388)).cljs$core$IFn$_invoke$arity$1(a));
   var e = d.call(null, new cljs.core.Keyword(null, "p", "p", 151049309), e), f = d.call(null, new cljs.core.Keyword(null, "p", "p", 151049309), f), g = d.call(null, new cljs.core.Keyword(null, "p", "p", 151049309), "ROW: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "row", "row", -570139521)).cljs$core$IFn$_invoke$arity$1(a))), d = d.call(null, new cljs.core.Keyword(null, "p", "p", 151049309), "GRAVE: " + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, 
   "grave", "grave", 2143694981)).cljs$core$IFn$_invoke$arity$1(a)));
-  return dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, document.querySelector(dommy.core.selector.call(null, "#i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(b))), c), e), f), g), d), cemetery.ui.geo_link.call(null, (new cljs.core.Keyword(null, "lat", "lat", -580793929)).cljs$core$IFn$_invoke$arity$1(a), (new cljs.core.Keyword(null, 
-  "lng", "lng", 1667213918)).cljs$core$IFn$_invoke$arity$1(a)));
+  return dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, dommy.core.append_BANG_.call(null, document.querySelector(dommy.core.selector.call(null, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["#i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(b), new cljs.core.Keyword(null, "div", "div", 1057191632)], null))), c), e), f), g), d), cemetery.ui.geo_link.call(null, 
+  (new cljs.core.Keyword(null, "lat", "lat", -580793929)).cljs$core$IFn$_invoke$arity$1(a), (new cljs.core.Keyword(null, "lng", "lng", 1667213918)).cljs$core$IFn$_invoke$arity$1(a)));
 };
 cemetery.ui.create_list_items = function(a, b) {
   for (var c = cljs.core.seq.call(null, a), d = null, e = 0, f = 0;;) {
     if (f < e) {
       var g = cljs.core._nth.call(null, d, f);
-      dommy.core.append_BANG_.call(null, document.getElementById("results"), dommy.core.listen_BANG_.call(null, dommy.core.set_attr_BANG_.call(null, dommy.core.create_element.call(null, "li"), new cljs.core.Keyword(null, "id", "id", -1388402092), "i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "id", "id", -1388402092)).cljs$core$IFn$_invoke$arity$1(g))), new cljs.core.Keyword(null, "click", "click", 1912301393), b));
+      dommy.core.append_BANG_.call(null, document.getElementById("results"), dommy.core.append_BANG_.call(null, dommy.core.listen_BANG_.call(null, dommy.core.set_attr_BANG_.call(null, dommy.core.create_element.call(null, "li"), new cljs.core.Keyword(null, "id", "id", -1388402092), "i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "id", "id", -1388402092)).cljs$core$IFn$_invoke$arity$1(g))), new cljs.core.Keyword(null, "click", "click", 1912301393), b), dommy.core.create_element.call(null, 
+      "div")));
       f += 1;
     } else {
       if (c = cljs.core.seq.call(null, c)) {
-        d = c, cljs.core.chunked_seq_QMARK_.call(null, d) ? (c = cljs.core.chunk_first.call(null, d), e = cljs.core.chunk_rest.call(null, d), d = c, g = cljs.core.count.call(null, c), c = e, e = g) : (g = cljs.core.first.call(null, d), dommy.core.append_BANG_.call(null, document.getElementById("results"), dommy.core.listen_BANG_.call(null, dommy.core.set_attr_BANG_.call(null, dommy.core.create_element.call(null, "li"), new cljs.core.Keyword(null, "id", "id", -1388402092), "i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, 
-        "id", "id", -1388402092)).cljs$core$IFn$_invoke$arity$1(g))), new cljs.core.Keyword(null, "click", "click", 1912301393), b)), c = cljs.core.next.call(null, d), d = null, e = 0), f = 0;
+        d = c, cljs.core.chunked_seq_QMARK_.call(null, d) ? (c = cljs.core.chunk_first.call(null, d), e = cljs.core.chunk_rest.call(null, d), d = c, g = cljs.core.count.call(null, c), c = e, e = g) : (g = cljs.core.first.call(null, d), dommy.core.append_BANG_.call(null, document.getElementById("results"), dommy.core.append_BANG_.call(null, dommy.core.listen_BANG_.call(null, dommy.core.set_attr_BANG_.call(null, dommy.core.create_element.call(null, "li"), new cljs.core.Keyword(null, "id", "id", -1388402092), 
+        "i" + cljs.core.str.cljs$core$IFn$_invoke$arity$1((new cljs.core.Keyword(null, "id", "id", -1388402092)).cljs$core$IFn$_invoke$arity$1(g))), new cljs.core.Keyword(null, "click", "click", 1912301393), b), dommy.core.create_element.call(null, "div"))), c = cljs.core.next.call(null, d), d = null, e = 0), f = 0;
       } else {
         return null;
       }

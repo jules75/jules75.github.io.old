@@ -21,7 +21,7 @@
           row           (f :p (str "ROW: " (:row details)))
           grave         (f :p (str "GRAVE: " (:grave details)))
           ]
-        (-> (d/sel1 (str "#i" id))
+        (-> (d/sel1 [(str "#i" id) :div])
             (d/append! location)
             (d/append! area)
             (d/append! section)
@@ -39,7 +39,9 @@
                 (-> (d/create-element "li")
                     (d/set-attr! :id (str "i" (:id rec)))
                     (d/listen! :click callback)
+                    (d/append! (d/create-element "div"))
                     ))))
+
 
 (defn- populate-list
     [records]

@@ -74,8 +74,13 @@ li {
     border-bottom: 1px solid #bbb;
     background-color: #eee;
     padding: 5px;
+    overflow: auto;
 }
     li .name {
         font-weight: bold;
+    }
+    li div {
+        float: right;
+        border: 1px solid red;
     }
 
