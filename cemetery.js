@@ -1721,7 +1721,7 @@ l.call = function() {
     a = this;
     return a.f.l ? a.f.l() : a.f.call(null);
   }
-  var B = null, B = function(B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, zf, uh) {
+  var B = null, B = function(B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, yf, vh) {
     switch(arguments.length) {
       case 1:
         return qa.call(this, B);
@@ -1764,9 +1764,9 @@ l.call = function() {
       case 20:
         return c.call(this, B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke);
       case 21:
-        return b.call(this, B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, zf);
+        return b.call(this, B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, yf);
       case 22:
-        return a.call(this, B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, zf, uh);
+        return a.call(this, B, fa, ia, la, pa, ta, va, xa, Ca, Ea, Ka, Ra, Ya, gb, sb, Cb, Yb, Dc, fd, ke, yf, vh);
     }
     throw Error("Invalid arity: " + arguments.length);
   };
@@ -6207,7 +6207,7 @@ var vf = function() {
   d.c = a;
   d.e = e.e;
   return d;
-}(), yf = function() {
+}(), zf = function() {
   function a(a, b) {
     for (;;) {
       if (F(b) && 0 < a) {
@@ -6242,11 +6242,11 @@ var vf = function() {
   return c;
 }(), Af = function() {
   function a(a, b) {
-    yf.a(a, b);
+    zf.a(a, b);
     return b;
   }
   function b(a) {
-    yf.b(a);
+    zf.b(a);
     return a;
   }
   var c = null, c = function(c, e) {
@@ -7158,14 +7158,14 @@ var Fg = function() {
   return a;
 }();
 function Gg(a, b) {
-  return Td.a(null, a) ? wg.c(ug(zg.b(gg), "View section location on map"), fg, "http://maps.google.com?q\x3d" + z.b(a) + "," + z.b(b)) : null;
+  return Td.a(null, a) ? wg.c(ug(zg.b(gg), "View section on map"), fg, "http://maps.google.com?q\x3d" + z.b(a) + "," + z.b(b)) : null;
 }
 function Hg(a, b) {
   function c(a, b) {
     return ug(zg.b(a), b);
   }
   var d = "Area: " + z.b(Rf.b(a)) + " (" + z.b(Qf.b(a)) + ")", e = "Section: " + z.b(bg.b(a)) + " (" + z.b($f.b(a)) + ")", f = c(eg, dg.b(a)), d = c(eg, d), e = c(eg, e), g = c(eg, "Row " + z.b(ig.b(a)) + ", grave " + z.b(Tf.b(a)));
-  return Ag.a(Ag.a(Ag.a(Ag.a(Ag.a(document.querySelector(pg(new W(null, 2, 5, X, ["#i" + z.b(b), Yf], null))), f), d), e), g), Gg(Z.b(a), $.b(a)));
+  return Ag.a(Ag.a(Ag.a(Ag.a(Ag.a(document.querySelector(pg(new W(null, 2, 5, X, ["#i" + z.b(b), Yf], null))), f), d), e), Gg(Z.b(a), $.b(a))), g);
 }
 function Ig(a) {
   for (var b = F(jg(document.getElementsByTagName("li"))), c = null, d = 0, e = 0;;) {
@@ -7211,9 +7211,9 @@ function Ig(a) {
 }
 function Jg() {
   var a = N.b ? N.b(Kg) : N.call(null, Kg), b = N.b ? N.b(Lg) : N.call(null, Lg), c = N.b ? N.b(Mg) : N.call(null, Mg), d = N.b ? N.b(Ng) : N.call(null, Ng), e = Og;
+  document.getElementById("results").innerHTML = "";
   yg.a(document.getElementById("limit"), xc.a(d, 150));
   if (0 < P(a)) {
-    document.getElementById("results").innerHTML = "";
     a: {
       for (var d = F(a), f = null, g = 0, h = 0;;) {
         if (h < g) {
@@ -7232,7 +7232,7 @@ function Jg() {
     Ig(a);
     return Hg(b, c);
   }
-  return null;
+  return alert("No records found");
 }
 ;var Pg;
 a: {
@@ -7413,7 +7413,7 @@ rh.prototype.preventDefault = function() {
 rh.prototype.Ea = function() {
 };
 var sh = "closure_listenable_" + (1E6 * Math.random() | 0), th = 0;
-function vh(a, b, c, d, e) {
+function uh(a, b, c, d, e) {
   this.Ha = a;
   this.qb = null;
   this.src = b;
@@ -7440,7 +7440,7 @@ xh.prototype.add = function(a, b, c, d, e) {
   a = this.S[f];
   a || (a = this.S[f] = [], this.ab++);
   var g = yh(a, b, d, e);
-  -1 < g ? (b = a[g], c || (b.cb = !1)) : (b = new vh(b, this.src, f, !!d, e), b.cb = c, a.push(b));
+  -1 < g ? (b = a[g], c || (b.cb = !1)) : (b = new uh(b, this.src, f, !!d, e), b.cb = c, a.push(b));
   return b;
 };
 xh.prototype.remove = function(a, b, c, d) {
@@ -8280,6 +8280,6 @@ Fg.e(jg(document.getElementsByTagName("form"))[0], M([Wf, function(a) {
   Ri();
   return a.preventDefault();
 }], 0));
-Jg();
+yg.b(document.getElementById("limit"));
 
 })();

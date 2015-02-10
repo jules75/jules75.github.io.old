@@ -69,10 +69,8 @@ button#close {
     }
     #results li div {
         float: right;
-        background-color: #777;
-        color: white;
     }
     #results li div a {
-        color: white;
+        color: blue;
     }
 

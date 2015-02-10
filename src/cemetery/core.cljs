@@ -91,5 +91,6 @@
 (d/listen! (d/sel1 :form) :submit on-search)
 
 
-(ui-update)
+; hide limit error
+(d/toggle! (d/sel1 :#limit))
 

@@ -2,11 +2,11 @@
     (:require [dommy.core :as d :refer-macros [sel sel1]]))
 
 (defn geo-link
-    "Return link to map given lat/lng as strings."
-    [lat lng]
+    "Return node of link to map given lat/lng as strings."
+    [lat lng text]
     (when (not= nil lat)
         (-> (d/create-element :a) 
-            (d/set-text! "View section location on map")
+            (d/set-text! text)
             (d/set-attr! :href (str "http://maps.google.com?q=" lat "," lng))
             )))
 
@@ -25,8 +25,8 @@
             (d/append! location)
             (d/append! area)
             (d/append! section)
+            (d/append! (geo-link (:lat details) (:lng details) "View section on map"))
             (d/append! rowgrave)
-            (d/append! (geo-link (:lat details) (:lng details)))
             )))
 
 
@@ -65,10 +65,13 @@
      start-index 
      max-index
      item-select-callback]
+    (d/clear! (d/sel1 :#results))
     (d/toggle! (d/sel1 :#limit) (= start-index max-index))
-    (when (pos? (count records))
-        (d/clear! (d/sel1 :#results))
-        (create-list-items records item-select-callback)
-        (populate-list records)
-        (render-details record-details record-id)))
+    (if (pos? (count records))
+        (do
+            (create-list-items records item-select-callback)
+            (populate-list records)
+            (render-details record-details record-id))
+        (js/alert "No records found")
+        ))
 
