@@ -7,7 +7,8 @@
     (when (not= nil lat)
         (-> (d/create-element :a) 
             (d/set-text! text)
-            (d/set-attr! :href (str "http://maps.google.com?q=" lat "," lng))
+            (d/set-attr! :href (str "//google.com/maps?q=" lat "," lng))
+            (d/set-attr! :target "_blank")
             )))
 
 
