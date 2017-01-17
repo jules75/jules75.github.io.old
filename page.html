@@ -113,7 +113,7 @@ var gMap;
 
 function replaceGeoCoord(text) {
   var regex = /\{\{coord\|(-{0,1}\d+\.\d+)\|(-{0,1}\d+\.\d+)\}\}/g;
-  var replace = "<a class='geolink' data-lat='$1' data-lng='$2' href='https://maps.google.com/?q=$1,$2'>(map)</a>";
+  var replace = "<a class='geolink' data-lat='$1' data-lng='$2' href='https://maps.google.com/?q=$1,$2'>map</a>";
   return text.replace(regex, replace);
 }
 
