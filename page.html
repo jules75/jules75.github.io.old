@@ -1,0 +1,161 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+
+  <!--link rel="stylesheet" href="css/styles.css?v=1.0"-->
+
+  <!--
+  http://www.colourlovers.com/palette/4425260/Online_If_You_Find_M
+-->
+
+  <style>
+  * {
+  	margin: 0;
+  	padding: 0;
+  }
+  body {
+  	font-family: sans-serif;
+  }
+  nav {
+  	padding: 15px;
+  	zoom: 1.5;
+  	background-color: #026FD6;
+  }
+  #search {
+  	width: 70%;
+  	background-color: #38A3F4;
+  	color: white;
+  	border-width: 0;
+  	padding: 5px;
+  }
+  #search::-webkit-input-placeholder {
+  	color: #ccc;
+  }
+  #content {
+    padding: 30px;
+  }
+  #map {
+    width: 400px;
+    height: 400px;
+    float: right;
+  }  
+  .card {
+  	background-color: #ddd;
+  	padding: 10px;
+  	max-width: 300px;
+  	overflow: auto;
+  }
+  .card p {
+  	margin: 1em 0;
+  }
+  .card ul.actions {
+  	margin-top: 20px;
+  	list-style-type: none;
+  	float: right;
+  }
+  .card ul.actions li {
+  	display: inline;
+  }
+  .card ul.actions li a {
+	background-color: #026FD6;
+  	padding: 5px;  	
+  	color: white;
+  	text-decoration: none;
+  	display: inline-block;
+  }
+  </style>
+
+  
+</head>
+
+<body>
+
+	<nav>
+		<input type="text" id="search" placeholder="Search" />
+	</nav>
+
+
+<div id="content">
+
+<div id="map"></div>
+
+<div class="card">
+	<div class="editable">
+	<p>Parrot, Ernest Garner (SN 13332) was an Englishman, born at Uppingham, but resident in East St Ballarat {{coord|-37.562587|143.868104}} where he enlisted on July 14th, 1915. He was a 41 year old dentist. He trained with the Medical Corps at Ascot Vale and Broadmeadows before joining the 4th Field Ambulance reinforcements.</p>
+	<p> He embarked from Melbourne on March 7th 1916 aboard the Karoola and sailed to England. He served in France with the 12th and 13th Field Ambulance Brigades until influenza forced his evacuation to hospital in England in December 1916.</p>
+	<p> In April 1917 he left England to return to Australia on the Themistocles and disembarked at Melbourne on July 2nd. A month later he was discharged as 'medically unfit - deafness'. He died in June 1931 at the age of 57.</p>
+	<p> Area: Church of England G Section: 3 Row: 1 Grave: 44 {{coord|-37.531063|143.864608}}</p>
+	</div>
+	<ul class="actions">
+		<li><a href="#">Edit</a></li>
+		<li><a href="#">Save</a></li>
+		<li><a href="#">Add map coord</a></li>
+	</ul>
+</div>
+
+</div>
+
+<script>
+
+var gMap;
+
+function replaceGeoCoord(text) {
+  var regex = /\{\{coord\|(-{0,1}\d+\.\d+)\|(-{0,1}\d+\.\d+)\}\}/g;
+  var replace = "<a class='geolink' data-lat='$1' data-lng='$2' href='https://maps.google.com/?q=$1,$2'>(map)</a>";
+  return text.replace(regex, replace);
+}
+
+
+// create geolinks
+var cards = document.querySelectorAll(".card .editable");
+for (var i=0; i<cards.length; i++) {
+  cards[i].innerHTML = replaceGeoCoord(cards[i].innerHTML);
+}
+
+
+function initMap() {
+  var ballarat = {lat: -37.566, lng: 143.862};
+  gMap = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: ballarat
+  });
+}
+
+
+// make editable
+/*var els = document.querySelectorAll(".editable");
+for (var i=0; i<els.length; i++) {
+  els[i].contentEditable = true;
+}*/
+
+
+function onGeoLink(e) {
+  var pos = new google.maps.LatLng(e.target.dataset.lat, e.target.dataset.lng);
+  gMap.panTo(pos);
+  gMap.setZoom(18);
+  e.preventDefault();
+}
+
+
+// activate geolinks
+var geolinks = document.querySelectorAll("a.geolink");
+for (var i=0; i<geolinks.length; i++) {
+  geolinks[i].addEventListener("click",onGeoLink);
+}
+
+
+
+</script>
+
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4vbKcoEyAUOT9Ql4ydk-L8OlEEq5dJW4&amp;callback=initMap">
+    </script>
+
+  
+</body>
+</html>
