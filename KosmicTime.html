@@ -16,10 +16,11 @@
 
 		body {
 			font-family: "Lucida Console", Monaco, monospace;
-			font-size: 3em;
+			font-size: 5em;
 			background-color: #111;
 			color: #aaa;
 			text-align: center;
+			margin-top: 1em;
 		}
 
 		#mtime {
@@ -55,7 +56,10 @@
 		}
 
 		function pad(n) {
-			return (n + '').padStart(3, '0');
+			// padStart() not available for old browsers
+			var s = '000' + n;
+			var len = 3;
+			return s.substr(s.length-len, len);
 		}
 
 		function update() {
@@ -64,7 +68,7 @@
 
 			[m, k, s] = splitTime(Date.now());
 
-			$('#mtime').text('m' + pad(m));
+			$('#mtime').text('m' + m);
 			$('#ktime').text('k' + pad(k));
 			$('#stime').text(pad(s));
 
