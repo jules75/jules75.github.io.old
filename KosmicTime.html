@@ -45,34 +45,32 @@
 
 	<script>
 
-		alert('main2');
+		alert('main3');
 
 		// let d = new Date();
 
 		function splitTime(ms) {
-			let megaseconds = Math.floor(ms / 1e9);
-			let kiloseconds = Math.floor(ms / 1e6) % 1e3;
-			let seconds = Math.floor(ms / 1e3) % 1e3;
-			return [megaseconds, kiloseconds, seconds];
+			// let megaseconds = Math.floor(ms / 1e9);
+			// let kiloseconds = Math.floor(ms / 1e6) % 1e3;
+			// let seconds = Math.floor(ms / 1e3) % 1e3;
+			// return [megaseconds, kiloseconds, seconds];
 		}
 
 		function pad(n) {
-			return (n + '').padStart(3, '0');
+			// return (n + '').padStart(3, '0');
 		}
 
 		function update() {
 
-			alert('update');
+			// let m, k, s;
 
-			let m, k, s;
+			// [m, k, s] = splitTime(Date.now());
 
-			[m, k, s] = splitTime(Date.now());
+			// $('#mtime').text('m' + pad(m));
+			// $('#ktime').text('k' + pad(k));
+			// $('#stime').text(pad(s));
 
-			$('#mtime').text('m' + pad(m));
-			$('#ktime').text('k' + pad(k));
-			$('#stime').text(pad(s));
-
-			document.title = `k${pad(k)}.${pad(s)}`;
+			// document.title = `k${pad(k)}.${pad(s)}`;
 		}
 
 		// setInterval(update, 250);
