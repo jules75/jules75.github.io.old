@@ -3,71 +3,77 @@
 <html lang="en">
 
 <head>
-
+	<meta charset="UTF-8">
 	<title>loading&hellip;</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
 
-* {
-	margin: 0;
-	padding: 0;
-}
+		body {
+			font-family: "Lucida Console", Monaco, monospace;
+			font-size: 3em;
+			background-color: #111;
+			color: #aaa;
+			text-align: center;
+		}
 
-body {
-	font-family: sans-serif;
-}
+		#mtime {
+			color: #444;
+		}
 
-p {
-	text-align: center;
-}
+		#ktime {
+			font-size: 3em;
+			color: yellow;
+		}
+	</style>
 
-#ktime #major {
-	font-size: 3em;
-}
-
-</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
 
 <body>
 
-<p id="ktime"><span id="major">loading&hellip;</span><span id="minor"></span></p>
-<p id="utime"></p>
-<p id="earthtime"></p>
+	<p id="mtime">loading&hellip;</p>
+	<p id="ktime"></p>
+	<p id="stime"></p>
+	<p id="earthtime"></p>
 
-<script>
+	<script>
 
-function ktimeMajor(ms) {
-	let s = Math.floor(ms/1e6)%1e3 + '';
-	return s.padStart(3,'0');
-}
+		let d = new Date();
 
-function ktimeMinor(ms) {
-	let s = Math.floor(ms/1e3)%1e3 + '';
-	return s.padStart(3,'0');
-}
+		function splitTime(ms) {
+			let megaseconds = Math.floor(ms / 1e9);
+			let kiloseconds = Math.floor(ms / 1e6) % 1e3;
+			let seconds = Math.floor(ms / 1e3) % 1e3;
+			return [megaseconds, kiloseconds, seconds];
+		}
 
-function utime(ms) {
-	return Math.floor(ms/1e3).toLocaleString();
-}
+		function pad(n) {
+			return (n + '').padStart(3, '0');
+		}
 
-function update() {
+		function update() {
 
-	let d = new Date();
+			let m, k, s;
 
-	document.title = `k${ktimeMajor(Date.now())}.${ktimeMinor(Date.now())}`;
+			[m, k, s] = splitTime(Date.now());
 
-	document.querySelector('#ktime #major').innerText = `k${ktimeMajor(Date.now())}`;
-	document.querySelector('#ktime #minor').innerText = `${ktimeMinor(Date.now())}`;
-	document.querySelector('#utime').innerText = `timestamp: ${utime(Date.now())}`;
-	document.querySelector('#earthtime').innerText = `earth UTC: ${d.toUTCString()}`;
-}
+			$('#mtime').text('m' + pad(m));
+			$('#ktime').text('k' + pad(k));
+			$('#stime').text(pad(s));
 
-setInterval(update, 250);
+			document.title = `k${pad(k)}.${pad(s)}`;
+		}
 
-</script>
+		setInterval(update, 250);
+
+	</script>
 
 </body>
 
