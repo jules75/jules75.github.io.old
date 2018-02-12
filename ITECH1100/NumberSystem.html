@@ -59,6 +59,9 @@
     <p class="tripmeter hexadecimal">
         <em>1</em> (hexadecimal)
     </p>
+    <p class="tripmeter octal">
+        <em>1</em> (octal)
+    </p>
 
     <script>
 
@@ -91,6 +94,7 @@
             $('.tripmeter.decimal em').text(counter);
             $('.tripmeter.binary em').text(counter.toString(2));
             $('.tripmeter.hexadecimal em').text(counter.toString(16).toUpperCase());
+            $('.tripmeter.octal em').text(counter.toString(8).toUpperCase());
         }
 
         // listen for button press
