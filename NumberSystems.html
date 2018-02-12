@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-size: 2em;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 1em;
+        }
+
+        p {
+            margin: 1em 0;
+        }
+
+        button {
+            font-size: 1em;
+            padding: 0 1em;
+        }
+
+        .tripmeter {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .tripmeter em {
+            font-style: normal;
+            font-weight: bold;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <button id="decrease">-</button>
+    <button id="increase">+</button>
+
+    <p class="tripmeter egg">
+        <em>&#x1F95A;</em>
+    </p>
+    <p class="tripmeter decimal">
+        <em>1</em> (decimal)
+    </p>
+    <p class="tripmeter binary">
+        <em>1</em> (binary)
+    </p>
+    <p class="tripmeter hexadecimal">
+        <em>1</em> (hexadecimal)
+    </p>
+
+    <script>
+
+        let counter = 1;
+        const egg = '🥚';
+
+        function clamp(n, low, high) {
+            if (n < low) {
+                return low;
+            }
+            if (n > high) {
+                return high;
+            }
+            return n;
+        }
+
+        function update(e) {
+
+            if (e.target.id == 'increase') {
+                counter++;
+            }
+
+            if (e.target.id == 'decrease') {
+                counter--;
+            }
+
+            counter = clamp(counter, 0, 100);
+
+            $('.tripmeter.egg em').text(Array(counter + 1).join(egg));
+            $('.tripmeter.decimal em').text(counter);
+            $('.tripmeter.binary em').text(counter.toString(2));
+            $('.tripmeter.hexadecimal em').text(counter.toString(16).toUpperCase());
+        }
+
+        // listen for button press
+        $('button').click(update);
+
+    </script>
+
+</body>
+
+</html>
