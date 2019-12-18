@@ -20,8 +20,10 @@ function tick() {
 
 function onAddClick(e) {
     e.preventDefault();
-    let kJ = parseInt(document.getElementById('kJinput').value);
+    let el = document.getElementById('kJinput');
+    let kJ = parseInt(el.value);
     dataAddVal(kJ);
+    el.value = '';  // clear input    
 }
 
 function main() {
