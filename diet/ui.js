@@ -8,7 +8,7 @@ function friendlyTime(seconds) {
 }
 
 function render(score, countdown) {
-    document.getElementById('score').innerHTML = score;
+    document.getElementById('score').innerHTML = score + 'kJ';
     document.getElementById('countdown').innerHTML = (countdown > 0) ? friendlyTime(countdown) : 0;
 }
 
