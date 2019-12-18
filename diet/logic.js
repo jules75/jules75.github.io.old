@@ -28,6 +28,10 @@ function dataAddVal(kJ) {
     dataSaveRows(rows);
 }
 
+function dataReset(kJBudget) {
+    dataSaveRows([['r', now(), kJBudget]]);
+}
+
 function dataDropNewestRow() {
     let rows = dataGetRows();
     rows.shift();

@@ -29,7 +29,7 @@ function onResetClick(e) {
     e.preventDefault();
     let ans = prompt('Reset progress? Enter daily kilojoule budget, e.g. 8000');
     if (ans !== null) {
-        dataSaveRows([['r', now(), parseInt(ans)]]);
+        dataReset(parseInt(ans));
     }
 }
 
