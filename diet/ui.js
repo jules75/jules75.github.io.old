@@ -34,6 +34,12 @@ function onResetClick(e) {
 }
 
 function main() {
+    
+    // init with 9000kJ if empty
+    if(dataGetRows() == null) {
+        dataReset(9000);
+    }
+
     setInterval(tick, 1000);
     document.getElementById('add').addEventListener('click', onAddClick);
     document.getElementById('reset').addEventListener('click', onResetClick);
