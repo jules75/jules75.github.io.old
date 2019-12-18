@@ -25,8 +25,17 @@ function onAddClick(e) {
     el.value = '';  // clear input    
 }
 
+function onResetClick(e) {
+    e.preventDefault();
+    let ans = prompt('Reset progress? Enter daily kilojoule budget, e.g. 8000');
+    if (ans !== null) {
+        dataSaveRows([['r', now(), parseInt(ans)]]);
+    }
+}
+
 function main() {
     setInterval(tick, 1000);
     document.getElementById('add').addEventListener('click', onAddClick);
+    document.getElementById('reset').addEventListener('click', onResetClick);
 }
 
