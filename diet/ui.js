@@ -1,11 +1,10 @@
 
 function friendlyTime(seconds) {
 
-    let secs = Math.floor(seconds % 60);
     let minutes = Math.floor(seconds / 60 % 60);
     let hours = Math.floor(seconds / 3600);
 
-    return `${hours}h ${minutes}m ${secs}s`;
+    return `${hours}h ${minutes}m`;
 }
 
 function render(score, countdown) {
