@@ -1,17 +1,3 @@
-
-function dataGetRowsSample() {
-    // newest first
-    return [
-        ['i', 1576692969, 167],
-        ['i', 1576647503, 2900],
-        ['i', 1576647503, 1300],
-        ['i', 1576647503, 750],
-        ['i', 1576642500, 170],
-        ['i', 1576635300, 370],
-        ['r', 1576634400, 7000]
-    ];
-}
-
 function dataGetRows() {
     return JSON.parse(localStorage.getItem("data"));
 }
@@ -86,6 +72,7 @@ function calcState() {
 
     return {
         'kJtoBurn': kJtoBurn,
-        'secondsToZero': kJtoBurn / perSecondBudget
+        'secondsToZero': kJtoBurn / perSecondBudget,
+        'resetAmount': resetAmount
     };
 }

@@ -7,14 +7,15 @@ function friendlyTime(seconds) {
     return `${hours}h ${minutes}m`;
 }
 
-function render(score, countdown) {
-    document.getElementById('score').innerHTML = score + 'kJ';
-    document.getElementById('countdown').innerHTML = (countdown > 0) ? friendlyTime(countdown) : 0;
-}
-
 function tick() {
+    
     let state = calcState();
-    render(Math.floor(state.kJtoBurn), Math.floor(state.secondsToZero));
+    let countdown = Math.floor(state.secondsToZero);
+    document.getElementById('countdown').innerHTML = (countdown > 0) ? friendlyTime(countdown) : 0;
+
+    let score = Math.floor(state.kJtoBurn);
+    let budget = Math.floor(state.resetAmount);
+    document.getElementById('score').innerHTML = score + ' / ' + budget + ' kJ';
 }
 
 function onAddClick(e) {
