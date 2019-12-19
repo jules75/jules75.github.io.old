@@ -19,10 +19,10 @@ function tick() {
 
 function onAddClick(e) {
     e.preventDefault();
-    let el = document.getElementById('kJinput');
-    let kJ = parseInt(el.value);
-    dataAddVal(kJ);
-    el.value = '';  // clear input    
+    let ans = prompt('Enter kJ');
+    if (ans !== null) {
+        dataAddVal(parseInt(ans));
+    }
 }
 
 function onResetClick(e) {
