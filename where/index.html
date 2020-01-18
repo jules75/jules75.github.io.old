@@ -5,26 +5,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
 
 </head>
 
 <body>
 
     <p id="demo">Loading&hellip;</p>
+    <p id="target">Loading&hellip;</p>
 
 </body>
 
 <script>
 
+    let targetPos;
+
+    function setTarget(pos) {
+
+        const deltaLat = (0.5-Math.random())/20;
+        const deltaLng = (0.5-Math.random())/20;
+
+        targetPos = {
+            coords: {
+                latitude: pos.coords.latitude + deltaLat,
+                longitude: pos.coords.longitude + deltaLng
+            }
+        };
+    }
+
     function update(pos) {
+
+        setTarget(pos);
         
         const el = document.getElementById("demo");
+        const el2 = document.getElementById("target");
         
-        const lat = pos.coords.latitude.toFixed(4);
-        const lng = pos.coords.longitude.toFixed(4)
+        const lat1 = pos.coords.latitude.toFixed(4);
+        const lng1 = pos.coords.longitude.toFixed(4);
 
-        el.innerHTML = "Position: " + lat + ", " + lng;
+        const lat2 = targetPos.coords.latitude.toFixed(4);
+        const lng2 = targetPos.coords.longitude.toFixed(4);
+
+        el.innerHTML = "Position: " + lat1 + ", " + lng1;
+        el2.innerHTML = "Target: " + lat2 + ", " + lng2;
     }
 
     navigator.geolocation.getCurrentPosition(update);
