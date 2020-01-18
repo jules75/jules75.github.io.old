@@ -13,7 +13,7 @@
 
     <p id="demo">Loading&hellip;</p>
     <p id="target"></p>
-    <p id="dist"></p>
+    <h1 id="dist"></h1>
 
 </body>
 
@@ -62,7 +62,10 @@
 
     function update(pos) {
 
-        setTarget(pos);
+        // set target only once
+        if(!targetPos) {
+            setTarget(pos);
+        }
 
         const lat1 = pos.coords.latitude.toFixed(4);
         const lng1 = pos.coords.longitude.toFixed(4);
@@ -72,10 +75,10 @@
 
         document.getElementById('demo').innerHTML = "Position: " + lat1 + ", " + lng1;
         document.getElementById('target').innerHTML = "Target: " + lat2 + ", " + lng2;
-        document.getElementById('dist').innerHTML = 'Distance: ' + distanceMetres(pos, targetPos).toFixed(3);
+        document.getElementById('dist').innerHTML =  distanceMetres(pos, targetPos).toFixed(0) + 'm';
     }
 
-    navigator.geolocation.getCurrentPosition(update);
+    navigator.geolocation.watchPosition(update);
 
 </script>
 
