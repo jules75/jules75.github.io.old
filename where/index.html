@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="stylesheet" href="style.css" />
 
@@ -16,13 +17,17 @@
 
 <script>
 
-    function render(pos) {
+    function update(pos) {
+        
         const el = document.getElementById("demo");
-        el.innerHTML = "Latitude: " + pos.coords.latitude +
-            "<br>Longitude: " + pos.coords.longitude;
+        
+        const lat = pos.coords.latitude.toFixed(4);
+        const lng = pos.coords.longitude.toFixed(4)
+
+        el.innerHTML = "Position: " + lat + ", " + lng;
     }
 
-    navigator.geolocation.getCurrentPosition(render);
+    navigator.geolocation.getCurrentPosition(update);
 
 </script>
 
