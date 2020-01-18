@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>HTML5 Doctor | Element Index</title>
+<link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+<p id="demo">content</p>
+
+</body>
+
+<script>
+    
+    var x = document.getElementById("demo");
+    
+    function getLocation() {
+        navigator.geolocation.getCurrentPosition(render);
+    }
+    
+    function render(pos) {
+      x.innerHTML = "Latitude: " + pos.coords.latitude +
+      "<br>Longitude: " + pos.coords.longitude;
+    }
+    
+    </script>
+
+</html>
