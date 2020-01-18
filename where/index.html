@@ -12,7 +12,8 @@
 <body>
 
     <p id="demo">Loading&hellip;</p>
-    <p id="target">Loading&hellip;</p>
+    <p id="target"></p>
+    <p id="dist"></p>
 
 </body>
 
@@ -20,10 +21,36 @@
 
     let targetPos;
 
+    // from https://stackoverflow.com/a/30316500
+    function distanceMetres(pos1, pos2) {
+        
+        function toRad(x) {
+            return x * Math.PI / 180;
+        }
+
+        var lon1 = pos1.coords.longitude;
+        var lat1 = pos1.coords.latitude;
+
+        var lon2 = pos2.coords.longitude;
+        var lat2 = pos2.coords.latitude;
+
+        var R = 6371; // km
+
+        var x1 = lat2 - lat1;
+        var dLat = toRad(x1);
+        var x2 = lon2 - lon1;
+        var dLon = toRad(x2)
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c * 1000;
+    }
+
     function setTarget(pos) {
 
-        const deltaLat = (0.5-Math.random())/20;
-        const deltaLng = (0.5-Math.random())/20;
+        const deltaLat = (0.5 - Math.random()) / 100;
+        const deltaLng = (0.5 - Math.random()) / 100;
 
         targetPos = {
             coords: {
@@ -36,18 +63,16 @@
     function update(pos) {
 
         setTarget(pos);
-        
-        const el = document.getElementById("demo");
-        const el2 = document.getElementById("target");
-        
+
         const lat1 = pos.coords.latitude.toFixed(4);
         const lng1 = pos.coords.longitude.toFixed(4);
 
         const lat2 = targetPos.coords.latitude.toFixed(4);
         const lng2 = targetPos.coords.longitude.toFixed(4);
 
-        el.innerHTML = "Position: " + lat1 + ", " + lng1;
-        el2.innerHTML = "Target: " + lat2 + ", " + lng2;
+        document.getElementById('demo').innerHTML = "Position: " + lat1 + ", " + lng1;
+        document.getElementById('target').innerHTML = "Target: " + lat2 + ", " + lng2;
+        document.getElementById('dist').innerHTML = 'Distance: ' + distanceMetres(pos, targetPos).toFixed(3);
     }
 
     navigator.geolocation.getCurrentPosition(update);
